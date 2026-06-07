@@ -1,0 +1,27 @@
+
+/* Fix CSS Variables - đảm bảo luôn có màu nền rõ ràng */
+:root {
+  --bg: #f5f0e8;
+  --bg2: #ede8df;
+  --bg3: #ffffff;
+  --dark: #1a1510;
+  --text: #1a1510;
+  --text2: #3d3226;
+  --text3: #8a7f72;
+  --border: #d4c9b8;
+  --border2: #e0d8cc;
+  --gold: #c9a84c;
+}
+
+[data-theme="dark"] {
+  --bg: #0d0a05;
+  --bg2: #130f08;
+  --bg3: #1a1510;
+  --dark: #0d0a05;
+  --text: #faf7f2;
+  --text2: #d4c9b8;
+  --text3: #8a7f72;
+  --border: #2a2018;
+  --border2: #241c10;
+  --gold: #c9a84c;
+}

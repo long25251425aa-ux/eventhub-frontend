@@ -1,0 +1,14 @@
+.auth-scene{min-height:calc(100vh - 60px);background:#1a1510;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden}
+.auth-bg{position:absolute;inset:0;background:repeating-linear-gradient(0deg,transparent,transparent 59px,rgba(201,168,76,.04) 60px),repeating-linear-gradient(90deg,transparent,transparent 59px,rgba(201,168,76,.04) 60px)}
+.auth-card{position:relative;z-index:1;background:#2a2018;border:1px solid #7a5f20;width:400px;padding:52px 44px}
+.auth-orn{text-align:center;margin-bottom:24px}
+.auth-title{font-size:28px;font-weight:300;letter-spacing:3px;color:#c9a84c;text-align:center;margin-bottom:4px;text-transform:uppercase}
+.auth-sub{font-size:11px;letter-spacing:2px;color:#8a7f72;text-align:center;margin-bottom:36px;text-transform:uppercase}
+.auth-card .field-input{color:#faf7f2;border-bottom-color:#7a5f20}
+.auth-card .field-input:focus{border-bottom-color:#c9a84c}
+.auth-card .field-input::placeholder{color:#5a5040}
+.auth-card .field-label{color:#8a7f72}
+.auth-foot{text-align:center;font-size:12px;color:#8a7f72;margin-top:20px}
+.auth-lnk{color:#c9a84c;text-decoration:none}
+.auth-lnk:hover{color:#e8c96d}
+.auth-hint{margin-top:20px;padding:14px;border:1px solid rgba(201,168,76,.15);font-size:11px;color:#8a7f72;line-height:1.9}

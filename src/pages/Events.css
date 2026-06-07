@@ -1,0 +1,6 @@
+.ev-hero{background:#1a1510;padding:48px 40px;border-bottom:1px solid #d4c8b0}
+.ev-eye{font-size:10px;letter-spacing:5px;color:#c9a84c;text-transform:uppercase;margin-bottom:10px}
+.filter-bar{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:28px;align-items:center}
+.f-search{flex:1;min-width:220px;background:#fff;border:1px solid #d4c8b0;padding:11px 16px;color:#0d0d0d;font-family:'Montserrat',sans-serif;font-size:12px;outline:none;letter-spacing:.5px;transition:border-color .25s}
+.f-search:focus{border-color:#c9a84c}
+.f-type{background:#fff;border:1px solid #d4c8b0;padding:11px 16px;color:#0d0d0d;font-family:'Montserrat',sans-serif;font-size:12px;outline:none;cursor:pointer}

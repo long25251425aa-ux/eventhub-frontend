@@ -1,0 +1,51 @@
+/* ── DARK MODE ─────────────────────────────────── */
+[data-theme="dark"] {
+  --ink: #faf7f2;
+  --ink2: #d4c9b8;
+  --ink3: #8a7f72;
+  --ink4: #5a5248;
+  --cream: #0d0a05;
+  --cream2: #130f08;
+  --cream3: #1a1510;
+  --white: #1a1510;
+  --border: #2a2018;
+  --border2: #241c10;
+  --dark: #0d0a05;
+  --dark2: #130f08;
+}
+
+[data-theme="dark"] body {
+  background: #0d0a05;
+  color: #faf7f2;
+}
+
+[data-theme="dark"] .field-input,
+[data-theme="dark"] .field-select,
+[data-theme="dark"] .field-textarea {
+  color: #faf7f2;
+  border-color: #2a2018;
+  background: transparent;
+}
+
+[data-theme="dark"] .field-input::placeholder {
+  color: #5a5248;
+}
+
+/* CSS variables alias cho các component dùng var(--bg) */
+:root {
+  --bg: var(--cream);
+  --bg2: var(--cream2);
+  --bg3: var(--white);
+  --text: var(--ink);
+  --text2: var(--ink2);
+  --text3: var(--ink3);
+}
+
+[data-theme="dark"] {
+  --bg: #0d0a05;
+  --bg2: #130f08;
+  --bg3: #1a1510;
+  --text: #faf7f2;
+  --text2: #d4c9b8;
+  --text3: #8a7f72;
+}

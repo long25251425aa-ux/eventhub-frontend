@@ -18,7 +18,7 @@ export default function SupportDashboard() {
 
   const load = async () => {
     try {
-      // Dùng chat/all �'�f có �'ầy �'ủ sender_id và sender_email
+      // Use chat/all to get sender_id and sender_email
       const { data } = await api.get('/users/chat/all');
       const all = data.data || [];
       

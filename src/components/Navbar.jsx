@@ -22,7 +22,7 @@ export default function Navbar() {
 
   useEffect(() => {
     if (!user) return;
-    api.get(user?.role === 'admin' ? '/users/notifications/all' : '/notifications').then(r => setNotifs(r.data.data || [])).catch(() => {});
+    api.get(user?.role === 'admin' ? '/users/notifications/all' : '/users/notifications').then(r => setNotifs(r.data.data || [])).catch(() => {});
   }, [user]);
 
   useEffect(() => {
@@ -101,7 +101,7 @@ export default function Navbar() {
                   ))}
                   <div style={{ padding: '10px 16px', display: 'flex', gap: 8, justifyContent: 'center' }}>
                     <button onClick={markAllRead} style={{ fontSize: 11, color: 'var(--text3)', background: 'none', border: '1px solid var(--border)', borderRadius: 4, padding: '4px 8px', cursor: 'pointer' }}>Mark all read</button>
-                    <button onClick={() => { nav('/notifications'); setShowNotifs(false); }} style={{ fontSize: 11, color: 'var(--gold)', background: 'none', border: 'none', cursor: 'pointer' }}>All Notifications</button>
+                    <button onClick={() => { nav('/users/notifications'); setShowNotifs(false); }} style={{ fontSize: 11, color: 'var(--gold)', background: 'none', border: 'none', cursor: 'pointer' }}>All Notifications</button>
                   </div>
                 </div>
               )}

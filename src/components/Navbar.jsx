@@ -105,8 +105,8 @@ export default function Navbar() {
                     <button onClick={() => { api.patch('/notifications/read-all').then(() => setNotifs(p => p.map(n => ({...n, is_read: 1})))); }} style={{ fontSize: 11, color: 'var(--text3)', background: 'none', border: '1px solid var(--border)', borderRadius: 4, padding: '4px 8px', cursor: 'pointer' }}>Mark all read</button>
                     <button onClick={() => { nav('/notifications'); setShowNotifs(false); }} style={{ fontSize: 11, color: 'var(--gold)', background: 'none', border: 'none', cursor: 'pointer' }}>All Notifications</button>
                   </div>
+                </div>
               )}
-            </div>
 
             {/* User menu */}
             <div ref={userRef} style={{ position: 'relative' }}>

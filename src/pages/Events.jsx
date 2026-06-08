@@ -1,8 +1,8 @@
-import React, { useState, useEffect, useCallback } from 'react';
+﻿import React, { useState, useEffect, useCallback } from 'react';
 import { useSearchParams, useNavigate } from 'react-router-dom';
 import api from '../services/api';
 
-const fmt = n => n === 0 ? 'Miễn phí' : new Intl.NumberFormat('vi-VN').format(n) + 'đ';
+const fmt = n => n === 0 ? 'Free' : new Intl.NumberFormat('vi-VN').format(n) + 'đ';
 const fmtD = d => new Date(d).toLocaleDateString('vi-VN', { day: '2-digit', month: '2-digit', year: 'numeric' });
 
 const SORTS = [
@@ -14,7 +14,7 @@ const SORTS = [
 
 const PRICE_RANGES = [
   { v: '', l: 'Tất cả giá' },
-  { v: 'free', l: 'Miễn phí' },
+  { v: 'free', l: 'Free' },
   { v: '0-100000', l: 'Dưới 100k' },
   { v: '100000-500000', l: '100k – 500k' },
   { v: '500000-1000000', l: '500k – 1 triệu' },
@@ -49,14 +49,14 @@ function EventCardGrid({ event: e, onClick }) {
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
           <div>
             <div style={{ fontFamily: 'Cormorant Garamond,serif', fontSize: 19, fontWeight: 300 }}>{fmt(e.min_price || 0)}</div>
-            <div style={{ fontSize: 10, color: 'var(--text3)' }}>{e.sold}/{e.capacity} vé đã bán</div>
+            <div style={{ fontSize: 10, color: 'var(--text3)' }}>{e.sold}/{e.capacity} vé sold</div>
           </div>
           {e.avg_rating > 0 && <div style={{ fontSize: 11, color: 'var(--text3)' }}>⭐ {e.avg_rating}</div>}
         </div>
         <button style={{ width:'100%', marginTop:10, background:'var(--dark)', border:'1px solid rgba(201,168,76,.3)', color:'var(--gold)', padding:'8px', fontSize:10, letterSpacing:2, textTransform:'uppercase', cursor:'pointer', fontFamily:'inherit', borderRadius:3, transition:'all .2s' }}
           onMouseOver={e2=>e2.currentTarget.style.background='var(--gold)' || (e2.currentTarget.style.color='#1a1510')}
           onMouseOut={e2=>e2.currentTarget.style.background='var(--dark)' || (e2.currentTarget.style.color='var(--gold)')}>
-          Xem chi tiết →
+          View Details →
         </button>
       </div>
     </div>
@@ -169,7 +169,7 @@ export default function Events() {
           {/* Search */}
           <input
             style={{ flex: 1, minWidth: 220, background: 'var(--bg3)', border: '1px solid var(--border)', color: 'var(--text)', padding: '9px 14px', fontSize: 13, fontFamily: 'inherit', outline: 'none', borderRadius: 4, transition: 'border-color .2s' }}
-            placeholder="🔍 Tìm kiếm sự kiện, địa điểm..."
+            placeholder="🔍 Search sự kiện, địa điểm..."
             defaultValue={search}
             onChange={e => set('search', e.target.value)}
             onFocus={e => e.target.style.borderColor = 'var(--gold)'}
@@ -252,7 +252,7 @@ export default function Events() {
         ) : events.length === 0 ? (
           <div style={{ textAlign: 'center', padding: '64px 20px' }}>
             <div style={{ fontSize: 36, marginBottom: 12 }}>🔍</div>
-            <div style={{ fontFamily: 'Cormorant Garamond,serif', fontSize: 22, marginBottom: 6 }}>Không tìm thấy sự kiện nào</div>
+            <div style={{ fontFamily: 'Cormorant Garamond,serif', fontSize: 22, marginBottom: 6 }}>No events found nào</div>
             <div style={{ fontSize: 13, color: 'var(--text3)', marginBottom: 16 }}>Thử thay đổi bộ lọc hoặc từ khóa tìm kiếm</div>
             <button className="btn btn-dark" onClick={() => { setSp({}); }}>Xóa tất cả bộ lọc</button>
           </div>

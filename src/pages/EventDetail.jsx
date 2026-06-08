@@ -1,10 +1,10 @@
-import React, { useState, useEffect, useRef } from 'react';
+﻿import React, { useState, useEffect, useRef } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import api from '../services/api';
 import toast from 'react-hot-toast';
 
-const fmt = n => n === 0 ? 'Miễn phí' : new Intl.NumberFormat('vi-VN').format(n) + 'đ';
+const fmt = n => n === 0 ? 'Free' : new Intl.NumberFormat('vi-VN').format(n) + 'đ';
 const fmtD = d => new Date(d).toLocaleDateString('vi-VN', { weekday: 'long', day: '2-digit', month: '2-digit', year: 'numeric' });
 const fmtT = d => new Date(d).toLocaleTimeString('vi-VN', { hour: '2-digit', minute: '2-digit' });
 
@@ -43,7 +43,7 @@ function QRModal({ order, onClose, onDone }) {
     <div style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,.7)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 500, padding: 20 }}>
       <div style={{ background: '#ffffff', color: '#1a1510', width: 420, maxWidth: '100%', borderRadius: 4, overflow: 'hidden', boxShadow: '0 20px 60px rgba(0,0,0,.4)' }}>
         <div style={{ background: 'var(--dark)', padding: '14px 20px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-          <span style={{ fontSize: 11, letterSpacing: 2, color: 'var(--gold)', textTransform: 'uppercase' }}>Thanh toán chuyển khoản</span>
+          <span style={{ fontSize: 11, letterSpacing: 2, color: 'var(--gold)', textTransform: 'uppercase' }}>Payment chuyển khoản</span>
           <span style={{ fontFamily: 'monospace', fontSize: 15, color: cd < 60 ? '#ff6b6b' : 'rgba(201,168,76,.7)' }}>{mm}:{ss}</span>
         </div>
         <div style={{ padding: '20px 24px', textAlign: 'center' }}>
@@ -199,7 +199,7 @@ export default function EventDetail() {
         }});
       } else {
         // Vé miễn phí - không cần thanh toán
-        toast.success('🎉 Đăng ký thành công!');
+        toast.success('🎉 Register thành công!');
         nav('/my-tickets');
       }
     } catch (e) { toast.error(e.response?.data?.message || 'Đặt vé thất bại'); }
@@ -218,7 +218,7 @@ export default function EventDetail() {
 
   const TABS = [
     { k: 'about', l: 'Giới thiệu' },
-    { k: 'agenda', l: 'Lịch trình' },
+    { k: 'agenda', l: 'Schedule' },
     { k: 'speakers', l: 'Diễn giả' },
     { k: 'reviews', l: `Đánh giá (${event.review_count || 0})` },
   ];
@@ -235,14 +235,14 @@ export default function EventDetail() {
         {event.banner && <img src={event.banner} alt="" style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', opacity: .25 }} />}
         <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(180deg, rgba(0,0,0,.2) 0%, rgba(13,10,5,.95) 100%)' }} />
         <div style={{ position: 'relative', padding: '40px 48px 36px' }}>
-          <button onClick={() => nav(-1)} style={{ background: 'none', border: '1px solid rgba(255,255,255,.2)', color: 'rgba(255,255,255,.7)', padding: '7px 16px', fontSize: 11, letterSpacing: 1.5, cursor: 'pointer', fontFamily: 'inherit', marginBottom: 24, borderRadius: 4 }}>← Quay lại</button>
+          <button onClick={() => nav(-1)} style={{ background: 'none', border: '1px solid rgba(255,255,255,.2)', color: 'rgba(255,255,255,.7)', padding: '7px 16px', fontSize: 11, letterSpacing: 1.5, cursor: 'pointer', fontFamily: 'inherit', marginBottom: 24, borderRadius: 4 }}>← Back</button>
 
           <div style={{ display: 'flex', gap: 10, alignItems: 'center', marginBottom: 14, flexWrap: 'wrap' }}>
             {event.category_name && <span style={{ background: event.category_color || '#7c3aed', color: '#fff', fontSize: 10, letterSpacing: 2, padding: '4px 12px', borderRadius: 2, fontWeight: 600 }}>{event.category_name.toUpperCase()}</span>}
             {event.is_featured && <span style={{ background: 'var(--gold)', color: '#1a1510', fontSize: 10, letterSpacing: 2, padding: '4px 10px', borderRadius: 2, fontWeight: 700 }}>NỔI BẬT</span>}
             {event.is_online && <span style={{ background: 'rgba(37,99,235,.8)', color: '#fff', fontSize: 10, letterSpacing: 2, padding: '4px 10px', borderRadius: 2 }}>ONLINE</span>}
             <span style={{ background: 'none', border: `1px solid ${left > 0 ? 'rgba(26,92,58,.5)' : 'rgba(139,26,26,.5)'}`, color: left > 0 ? '#4ade80' : '#f87171', fontSize: 10, letterSpacing: 2, padding: '4px 10px', borderRadius: 2 }}>
-              {left > 0 ? `🎫 Còn ${left} vé` : '❌ Hết vé'}
+              {left > 0 ? `🎫 Còn ${left} vé` : '❌ Sold Out'}
             </span>
           </div>
 
@@ -258,7 +258,7 @@ export default function EventDetail() {
           <div style={{ display: 'flex', alignItems: 'center', gap: 12, flexWrap: 'wrap' }}>
             {event.organizer_avatar && <img src={event.organizer_avatar} alt="" style={{ width: 28, height: 28, borderRadius: '50%', objectFit: 'cover' }} />}
             <span style={{ fontSize: 12, color: 'rgba(255,255,255,.45)' }}>Tổ chức bởi <strong style={{ color: 'rgba(255,255,255,.8)' }}>{event.organizer_name}</strong></span>
-            <span style={{ fontSize: 12, color: 'rgba(255,255,255,.4)' }}>· 👁 {event.view_count || 0} lượt xem</span>
+            <span style={{ fontSize: 12, color: 'rgba(255,255,255,.4)' }}>· 👁 {event.view_count || 0} views</span>
             <button onClick={async () => {
               if (!user) { toast.error('Vui lòng đăng nhập'); return; }
               const { data } = await api.post(`/events/${event.id}/favorite`).catch(() => ({ data: { isFavorite: isFav } }));
@@ -284,15 +284,15 @@ export default function EventDetail() {
           {/* ── COUNTDOWN ────────────────────── */}
           {countdown && (
             <div style={{ background: 'var(--bg3)', border: '1px solid rgba(201,168,76,.2)', borderRadius: 4, padding: '18px 20px', marginBottom: 20 }}>
-              <div style={{ fontSize: 10, letterSpacing: 2, color: 'var(--text3)', textTransform: 'uppercase', marginBottom: 12 }}>⏳ Sự kiện bắt đầu sau</div>
+              <div style={{ fontSize: 10, letterSpacing: 2, color: 'var(--text3)', textTransform: 'uppercase', marginBottom: 12 }}>⏳ Events bắt đầu sau</div>
               <div style={{ display: 'flex', gap: 10 }}>
-                <CDItem v={countdown.d} l="Ngày" />
+                <CDItem v={countdown.d} l="Days" />
                 <div style={{ fontSize: 24, color: 'rgba(201,168,76,.3)', alignSelf: 'center', fontFamily: 'Cormorant Garamond,serif' }}>:</div>
-                <CDItem v={countdown.h} l="Giờ" />
+                <CDItem v={countdown.h} l="Hours" />
                 <div style={{ fontSize: 24, color: 'rgba(201,168,76,.3)', alignSelf: 'center', fontFamily: 'Cormorant Garamond,serif' }}>:</div>
-                <CDItem v={countdown.m} l="Phút" />
+                <CDItem v={countdown.m} l="Minutes" />
                 <div style={{ fontSize: 24, color: 'rgba(201,168,76,.3)', alignSelf: 'center', fontFamily: 'Cormorant Garamond,serif' }}>:</div>
-                <CDItem v={countdown.s} l="Giây" />
+                <CDItem v={countdown.s} l="Seconds" />
               </div>
             </div>
           )}
@@ -310,10 +310,10 @@ export default function EventDetail() {
           {/* ── 3. ABOUT / MÔ TẢ ─────────────── */}
           {activeTab === 'about' && (
             <div>
-              {/* Mô tả */}
+              {/* Description */}
               <div style={{ background: 'var(--bg3)', border: '1px solid var(--border2)', borderRadius: 4, padding: '22px 24px', marginBottom: 20 }}>
                 <div style={{ fontSize: 10, letterSpacing: 3, color: 'var(--text3)', textTransform: 'uppercase', marginBottom: 14, display: 'flex', alignItems: 'center', gap: 8 }}>
-                  <span style={{ width: 20, height: 1, background: 'var(--gold)', display: 'inline-block' }} />Mô tả sự kiện
+                  <span style={{ width: 20, height: 1, background: 'var(--gold)', display: 'inline-block' }} />Description sự kiện
                 </div>
                 <p style={{ fontSize: 14, color: 'var(--text2)', lineHeight: 1.85, whiteSpace: 'pre-wrap' }}>{event.description || 'Chưa có mô tả.'}</p>
               </div>
@@ -333,11 +333,11 @@ export default function EventDetail() {
                 </div>
               </div>
 
-              {/* Địa điểm + Google Maps */}
+              {/* Location + Google Maps */}
               {!event.is_online && (event.venue_name || event.venue_address) && (
                 <div style={{ background: 'var(--bg3)', border: '1px solid var(--border2)', borderRadius: 4, padding: '20px 24px', marginBottom: 20 }}>
                   <div style={{ fontSize: 10, letterSpacing: 3, color: 'var(--text3)', textTransform: 'uppercase', marginBottom: 14, display: 'flex', alignItems: 'center', gap: 8 }}>
-                    <span style={{ width: 20, height: 1, background: 'var(--gold)', display: 'inline-block' }} />Địa điểm tổ chức
+                    <span style={{ width: 20, height: 1, background: 'var(--gold)', display: 'inline-block' }} />Location tổ chức
                   </div>
                   <div style={{ display: 'flex', gap: 10, marginBottom: 14 }}>
                     <span style={{ fontSize: 24 }}>📍</span>
@@ -361,7 +361,7 @@ export default function EventDetail() {
               {event.faq?.length > 0 && (
                 <div style={{ background: 'var(--bg3)', border: '1px solid var(--border2)', borderRadius: 4, padding: '20px 24px', marginBottom: 20 }}>
                   <div style={{ fontSize: 10, letterSpacing: 3, color: 'var(--text3)', textTransform: 'uppercase', marginBottom: 14, display: 'flex', alignItems: 'center', gap: 8 }}>
-                    <span style={{ width: 20, height: 1, background: 'var(--gold)', display: 'inline-block' }} />Câu hỏi thường gặp
+                    <span style={{ width: 20, height: 1, background: 'var(--gold)', display: 'inline-block' }} />FAQ
                   </div>
                   {event.faq.map((f, i) => (
                     <div key={i} style={{ padding: '10px 0', borderBottom: '1px solid var(--border2)' }}>
@@ -372,7 +372,7 @@ export default function EventDetail() {
                 </div>
               )}
 
-              {/* Điều khoản + Chính sách hoàn vé */}
+              {/* Điều khoản + Refund Policy */}
               {(event.refund_policy || event.terms) && (
                 <div style={{ background: 'var(--bg3)', border: '1px solid var(--border2)', borderRadius: 4, padding: '20px 24px', marginBottom: 20 }}>
                   <div style={{ fontSize: 10, letterSpacing: 3, color: 'var(--text3)', textTransform: 'uppercase', marginBottom: 14, display: 'flex', alignItems: 'center', gap: 8 }}>
@@ -380,7 +380,7 @@ export default function EventDetail() {
                   </div>
                   {event.refund_policy && (
                     <>
-                      <div style={{ fontSize: 12, fontWeight: 600, color: 'var(--text)', marginBottom: 6 }}>♻️ Chính sách hoàn vé</div>
+                      <div style={{ fontSize: 12, fontWeight: 600, color: 'var(--text)', marginBottom: 6 }}>♻️ Refund Policy</div>
                       <p style={{ fontSize: 13, color: 'var(--text2)', lineHeight: 1.7, marginBottom: 14 }}>{event.refund_policy}</p>
                     </>
                   )}
@@ -499,7 +499,7 @@ export default function EventDetail() {
                     placeholder="Chia sẻ cảm nhận của bạn về sự kiện này..."
                     value={review.comment} onChange={e => setReview(r => ({ ...r, comment: e.target.value }))} />
                   <button onClick={submitReview} disabled={reviewing} style={{ background: 'var(--dark)', border: '1px solid rgba(201,168,76,.3)', color: 'var(--gold)', padding: '9px 24px', fontSize: 11, letterSpacing: 1.5, cursor: 'pointer', fontFamily: 'inherit', borderRadius: 4, opacity: reviewing ? .6 : 1 }}>
-                    {reviewing ? 'Đang gửi...' : 'Gửi đánh giá'}
+                    {reviewing ? 'Đang gửi...' : 'Send đánh giá'}
                   </button>
                 </div>
               )}
@@ -516,7 +516,7 @@ export default function EventDetail() {
               <div style={{ fontSize: 12, color: 'var(--text2)', marginBottom: 4 }}>📅 {fmtD(event.start_date)} · {fmtT(event.start_date)}</div>
               <div style={{ fontSize: 12, color: 'var(--text2)', marginBottom: 10 }}>📍 {event.is_online ? 'Trực tuyến' : event.venue_name}</div>
               <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 11, color: 'var(--text3)', marginBottom: 5 }}>
-                <span>{event.sold}/{event.capacity} vé đã bán</span>
+                <span>{event.sold}/{event.capacity} vé sold</span>
                 <span style={{ color: pct >= 80 ? '#8b1a1a' : 'var(--text3)' }}>{pct}% {pct >= 80 ? '🔥 Sắp hết!' : ''}</span>
               </div>
               <div style={{ height: 4, background: 'var(--border)', borderRadius: 2, overflow: 'hidden' }}>
@@ -552,21 +552,21 @@ export default function EventDetail() {
             {/* Coupon */}
             {hasItems && subtotal > 0 && (
               <div style={{ padding: '12px 20px', borderBottom: '1px solid var(--border2)' }}>
-                <div style={{ fontSize: 10, letterSpacing: 2, color: 'var(--text3)', textTransform: 'uppercase', marginBottom: 8 }}>Mã giảm giá</div>
+                <div style={{ fontSize: 10, letterSpacing: 2, color: 'var(--text3)', textTransform: 'uppercase', marginBottom: 8 }}>Coupon Code</div>
                 <div style={{ display: 'flex', gap: 8 }}>
                   <input value={coupon} onChange={e => setCoupon(e.target.value.toUpperCase())} placeholder="Nhập mã..." style={{ flex: 1, background: 'var(--bg2)', border: '1px solid var(--border)', color: 'var(--text)', padding: '8px 12px', fontSize: 12, fontFamily: 'monospace', outline: 'none', borderRadius: 4 }} />
-                  <button onClick={applyCode} style={{ background: 'var(--dark)', border: '1px solid rgba(201,168,76,.3)', color: 'var(--gold)', padding: '8px 14px', fontSize: 11, cursor: 'pointer', fontFamily: 'inherit', borderRadius: 4, whiteSpace: 'nowrap' }}>Áp dụng</button>
+                  <button onClick={applyCode} style={{ background: 'var(--dark)', border: '1px solid rgba(201,168,76,.3)', color: 'var(--gold)', padding: '8px 14px', fontSize: 11, cursor: 'pointer', fontFamily: 'inherit', borderRadius: 4, whiteSpace: 'nowrap' }}>Apply</button>
                 </div>
                 {couponMsg && <div style={{ fontSize: 11, color: '#1a5c3a', marginTop: 5 }}>✓ {couponMsg}</div>}
               </div>
             )}
 
-            {/* Tổng tiền */}
+            {/* Total */}
             {hasItems && (
               <div style={{ padding: '12px 20px', borderBottom: '1px solid var(--border2)' }}>
                 {discount > 0 && (
                   <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 12, marginBottom: 4 }}>
-                    <span style={{ color: 'var(--text3)' }}>Giảm giá</span>
+                    <span style={{ color: 'var(--text3)' }}>Discount</span>
                     <span style={{ color: '#1a5c3a' }}>− {fmt(discount)}</span>
                   </div>
                 )}
@@ -582,11 +582,11 @@ export default function EventDetail() {
               <div style={{ padding: '16px 20px' }}>
                 {total > 0 && <div style={{ fontSize: 11, color: 'var(--text3)', marginBottom: 12, padding: '8px 10px', background: 'rgba(201,168,76,.06)', border: '1px solid rgba(201,168,76,.15)', borderRadius: 4 }}>📱 Sau khi đặt, màn hình QR chuyển khoản sẽ hiện ra.</div>}
                 <button onClick={book} disabled={booking || !hasItems} style={{ width: '100%', padding: 13, background: booking || !hasItems ? 'rgba(201,168,76,.4)' : 'var(--gold)', border: 'none', color: '#1a1510', fontFamily: 'inherit', fontSize: 12, letterSpacing: 2, textTransform: 'uppercase', fontWeight: 700, cursor: booking || !hasItems ? 'not-allowed' : 'pointer', borderRadius: 4 }}>
-                  {booking ? 'Đang xử lý...' : total > 0 ? 'Đặt vé & Thanh toán' : 'Đặt vé miễn phí'}
+                  {booking ? 'Đang xử lý...' : total > 0 ? 'Đặt vé & Payment' : 'Đặt vé miễn phí'}
                 </button>
               </div>
             ) : (
-              <div style={{ padding: '16px 20px', textAlign: 'center', fontSize: 11, letterSpacing: 3, color: '#8b1a1a', background: 'rgba(139,26,26,.04)', textTransform: 'uppercase' }}>Sự kiện đã hết vé</div>
+              <div style={{ padding: '16px 20px', textAlign: 'center', fontSize: 11, letterSpacing: 3, color: '#8b1a1a', background: 'rgba(139,26,26,.04)', textTransform: 'uppercase' }}>Events đã hết vé</div>
             )}
           </div>
 

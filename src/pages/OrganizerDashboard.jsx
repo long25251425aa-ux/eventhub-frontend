@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+﻿import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import api from '../services/api';
@@ -49,7 +49,7 @@ function EventModal({ event, categories, onClose, onSaved }) {
     <div style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,.65)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 500, padding: 20 }}>
       <div style={{ background: 'var(--bg3)', width: 580, maxWidth: '96vw', borderRadius: 4, overflow: 'hidden', maxHeight: '90vh', display: 'flex', flexDirection: 'column', boxShadow: '0 20px 60px rgba(0,0,0,.3)' }}>
         <div style={{ background: 'var(--dark)', padding: '14px 20px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexShrink: 0 }}>
-          <span style={{ fontSize: 11, letterSpacing: 2, color: 'var(--gold)', textTransform: 'uppercase' }}>{isEdit ? 'Chỉnh sửa' : 'Tạo mới'} sự kiện</span>
+          <span style={{ fontSize: 11, letterSpacing: 2, color: 'var(--gold)', textTransform: 'uppercase' }}>{isEdit ? 'Edit' : 'Tạo mới'} sự kiện</span>
           <button onClick={onClose} style={{ background: 'none', border: 'none', color: 'rgba(255,255,255,.4)', fontSize: 22, cursor: 'pointer', lineHeight: 1 }}>×</button>
         </div>
         <div style={{ padding: 20, overflowY: 'auto', flex: 1 }}>
@@ -59,35 +59,35 @@ function EventModal({ event, categories, onClose, onSaved }) {
           </div>
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12, marginBottom: 14 }}>
             <div>
-              <label style={{ display: 'block', fontSize: 10, letterSpacing: 2, color: 'var(--text3)', textTransform: 'uppercase', marginBottom: 6 }}>Danh mục</label>
+              <label style={{ display: 'block', fontSize: 10, letterSpacing: 2, color: 'var(--text3)', textTransform: 'uppercase', marginBottom: 6 }}>Categories</label>
               <select className="field-select" value={f.category_id || ''} onChange={e => setF({ ...f, category_id: e.target.value || null })}>
                 <option value="">-- Chọn danh mục --</option>
                 {categories.map(c => <option key={c.id} value={c.id}>{c.icon} {c.name}</option>)}
               </select>
             </div>
             <div>
-              <label style={{ display: 'block', fontSize: 10, letterSpacing: 2, color: 'var(--text3)', textTransform: 'uppercase', marginBottom: 6 }}>Trạng thái</label>
+              <label style={{ display: 'block', fontSize: 10, letterSpacing: 2, color: 'var(--text3)', textTransform: 'uppercase', marginBottom: 6 }}>Status</label>
               <select className="field-select" value={f.status} onChange={e => setF({ ...f, status: e.target.value })}>
                 <option value="draft">Bản nháp</option>
-                <option value="published">Xuất bản</option>
+                <option value="published">Publish</option>
               </select>
             </div>
           </div>
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12, marginBottom: 14 }}>
             <div>
-              <label style={{ display: 'block', fontSize: 10, letterSpacing: 2, color: 'var(--text3)', textTransform: 'uppercase', marginBottom: 6 }}>Ngày bắt đầu *</label>
+              <label style={{ display: 'block', fontSize: 10, letterSpacing: 2, color: 'var(--text3)', textTransform: 'uppercase', marginBottom: 6 }}>Days bắt đầu *</label>
               <input className="field-input" type="datetime-local" value={f.start_date || ''} onChange={e => setF({ ...f, start_date: e.target.value })} />
             </div>
             <div>
-              <label style={{ display: 'block', fontSize: 10, letterSpacing: 2, color: 'var(--text3)', textTransform: 'uppercase', marginBottom: 6 }}>Ngày kết thúc</label>
+              <label style={{ display: 'block', fontSize: 10, letterSpacing: 2, color: 'var(--text3)', textTransform: 'uppercase', marginBottom: 6 }}>Days kết thúc</label>
               <input className="field-input" type="datetime-local" value={f.end_date || ''} onChange={e => setF({ ...f, end_date: e.target.value })} />
             </div>
           </div>
           <div style={{ marginBottom: 14 }}>
-            <label style={{ display: 'block', fontSize: 10, letterSpacing: 2, color: 'var(--text3)', textTransform: 'uppercase', marginBottom: 6 }}>Địa điểm</label>
+            <label style={{ display: 'block', fontSize: 10, letterSpacing: 2, color: 'var(--text3)', textTransform: 'uppercase', marginBottom: 6 }}>Location</label>
             <label style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 8, fontSize: 12, color: 'var(--text3)', cursor: 'pointer' }}>
               <input type="checkbox" checked={f.is_online} onChange={e => setF({ ...f, is_online: e.target.checked })} />
-              Sự kiện trực tuyến (Online)
+              Events trực tuyến (Online)
             </label>
             {f.is_online
               ? <input className="field-input" value={f.online_url || ''} onChange={e => setF({ ...f, online_url: e.target.value })} placeholder="Link Zoom / Google Meet..." />
@@ -114,36 +114,36 @@ function EventModal({ event, categories, onClose, onSaved }) {
           </div>
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12, marginBottom: 14 }}>
             <div>
-              <label style={{ display: 'block', fontSize: 10, letterSpacing: 2, color: 'var(--text3)', textTransform: 'uppercase', marginBottom: 6 }}>Sức chứa</label>
+              <label style={{ display: 'block', fontSize: 10, letterSpacing: 2, color: 'var(--text3)', textTransform: 'uppercase', marginBottom: 6 }}>Capacity</label>
               <input className="field-input" type="number" value={f.capacity} onChange={e => setF({ ...f, capacity: +e.target.value })} />
             </div>
           </div>
           <div style={{ marginBottom: 14 }}>
-            <label style={{ display: 'block', fontSize: 10, letterSpacing: 2, color: 'var(--text3)', textTransform: 'uppercase', marginBottom: 6 }}>Mô tả sự kiện</label>
-            <textarea className="field-textarea" rows={4} value={f.description || ''} onChange={e => setF({ ...f, description: e.target.value })} placeholder="Mô tả chi tiết về sự kiện..." />
+            <label style={{ display: 'block', fontSize: 10, letterSpacing: 2, color: 'var(--text3)', textTransform: 'uppercase', marginBottom: 6 }}>Description sự kiện</label>
+            <textarea className="field-textarea" rows={4} value={f.description || ''} onChange={e => setF({ ...f, description: e.target.value })} placeholder="Description chi tiết về sự kiện..." />
           </div>
           <div style={{ marginBottom: 14 }}>
-            <label style={{ display: 'block', fontSize: 10, letterSpacing: 2, color: 'var(--text3)', textTransform: 'uppercase', marginBottom: 6 }}>Chính sách hoàn vé</label>
+            <label style={{ display: 'block', fontSize: 10, letterSpacing: 2, color: 'var(--text3)', textTransform: 'uppercase', marginBottom: 6 }}>Refund Policy</label>
             <textarea className="field-textarea" rows={2} value={f.refund_policy || ''} onChange={e => setF({ ...f, refund_policy: e.target.value })} />
           </div>
 
-          {/* Loại vé */}
+          {/* Ticket Types */}
           <div style={{ marginBottom: 4 }}>
             <div style={{ fontSize: 10, letterSpacing: 2, color: 'var(--text3)', textTransform: 'uppercase', marginBottom: 10, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-              <span>Loại vé</span>
+              <span>Ticket Types</span>
               <button type="button" className="btn btn-dark btn-sm" onClick={() => setF(p => ({ ...p, ticketTypes: [...(p.ticketTypes || []), { name: '', type: 'paid', price: 0, quantity: 50, max_per_order: 5 }] }))}>+ Thêm loại vé</button>
             </div>
             {(f.ticketTypes || []).map((tt, i) => (
               <div key={i} style={{ display: 'grid', gridTemplateColumns: '2fr 1fr 1fr 1fr auto', gap: 8, marginBottom: 8, padding: '10px', background: 'var(--bg2)', borderRadius: 4 }}>
                 <input className="field-input" value={tt.name} onChange={e => setF(p => { const t = [...p.ticketTypes]; t[i] = { ...t[i], name: e.target.value }; return { ...p, ticketTypes: t }; })} placeholder="Tên loại vé" style={{ marginBottom: 0 }} />
                 <select className="field-select" value={tt.type} onChange={e => setF(p => { const t = [...p.ticketTypes]; t[i] = { ...t[i], type: e.target.value }; return { ...p, ticketTypes: t }; })} style={{ marginBottom: 0 }}>
-                  <option value="free">Miễn phí</option>
+                  <option value="free">Free</option>
                   <option value="paid">Thường</option>
                   <option value="vip">VIP</option>
                   <option value="early_bird">Early Bird</option>
                 </select>
                 <input className="field-input" type="number" value={tt.price} onChange={e => setF(p => { const t = [...p.ticketTypes]; t[i] = { ...t[i], price: +e.target.value }; return { ...p, ticketTypes: t }; })} placeholder="Giá" style={{ marginBottom: 0 }} />
-                <input className="field-input" type="number" value={tt.quantity} onChange={e => setF(p => { const t = [...p.ticketTypes]; t[i] = { ...t[i], quantity: +e.target.value }; return { ...p, ticketTypes: t }; })} placeholder="Số lượng" style={{ marginBottom: 0 }} />
+                <input className="field-input" type="number" value={tt.quantity} onChange={e => setF(p => { const t = [...p.ticketTypes]; t[i] = { ...t[i], quantity: +e.target.value }; return { ...p, ticketTypes: t }; })} placeholder="Quantity" style={{ marginBottom: 0 }} />
                 {(f.ticketTypes || []).length > 1 && <button type="button" onClick={() => setF(p => { const t = [...p.ticketTypes]; t.splice(i, 1); return { ...p, ticketTypes: t }; })} style={{ background: 'none', border: 'none', color: '#8b1a1a', cursor: 'pointer', fontSize: 16 }}>×</button>}
               </div>
             ))}
@@ -212,8 +212,8 @@ export default function OrganizerDashboard() {
         {/* KPI */}
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4,1fr)', gap: 1, background: 'var(--border)', marginBottom: 28 }}>
           {[
-            { n: stats.totalEvents, l: 'Sự kiện của tôi', c: 'var(--gold)' },
-            { n: stats.totalTickets, l: 'Tổng vé đã bán', c: '#1a5c3a' },
+            { n: stats.totalEvents, l: 'Events của tôi', c: 'var(--gold)' },
+            { n: stats.totalTickets, l: 'Tổng vé sold', c: '#1a5c3a' },
             { n: fmt(stats.totalRevenue) + 'đ', l: 'Doanh thu', c: '#8b5e00' },
             { n: orders.filter(o => o.status === 'pending').length, l: 'Đơn chờ xử lý', c: '#993556' },
           ].map(s => (
@@ -226,14 +226,14 @@ export default function OrganizerDashboard() {
 
         {/* Tabs */}
         <div style={{ display: 'flex', borderBottom: '1px solid var(--border)', marginBottom: 24 }}>
-          {[['events', 'Sự kiện của tôi'], ['tickets', 'Theo dõi vé'], ['orders', 'Đơn hàng']].map(([k, l]) => (
+          {[['events', 'Events của tôi'], ['tickets', 'Theo dõi vé'], ['orders', 'Đơn hàng']].map(([k, l]) => (
             <button key={k} onClick={() => setTab(k)} style={{ background: 'none', border: 'none', borderBottom: tab === k ? '2px solid var(--gold)' : '2px solid transparent', cursor: 'pointer', fontFamily: 'inherit', fontSize: 11, letterSpacing: 2, textTransform: 'uppercase', padding: '12px 20px', color: tab === k ? 'var(--gold)' : 'var(--text3)', marginBottom: -1 }}>
               {l}
             </button>
           ))}
         </div>
 
-        {/* Tab: Sự kiện */}
+        {/* Tab: Events */}
         {tab === 'events' && (
           <>
             <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: 16 }}>
@@ -271,7 +271,7 @@ export default function OrganizerDashboard() {
                         </span>
                         <div style={{ display: 'flex', gap: 6 }}>
                           <button className="btn btn-dark btn-sm" onClick={() => setModal(e)}>Sửa</button>
-                          <button className="btn btn-dark btn-sm" onClick={() => togglePublish(e.id, e.status)}>{e.status === 'published' ? 'Ẩn' : 'Xuất bản'}</button>
+                          <button className="btn btn-dark btn-sm" onClick={() => togglePublish(e.id, e.status)}>{e.status === 'published' ? 'Ẩn' : 'Publish'}</button>
                           <button className="btn btn-danger btn-sm" onClick={() => del(e.id)}>Xóa</button>
                         </div>
                       </div>
@@ -304,7 +304,7 @@ export default function OrganizerDashboard() {
                       <div style={{ height: 6, background: 'var(--border)', borderRadius: 3, overflow: 'hidden' }}>
                         <div style={{ height: '100%', width: pct + '%', background: pct >= 100 ? '#8b1a1a' : pct >= 70 ? '#8b5e00' : 'var(--gold)', borderRadius: 3, transition: 'width .5s' }} />
                       </div>
-                      <div style={{ fontSize: 11, color: 'var(--text3)', marginTop: 6 }}>Tỉ lệ lấp đầy: <strong style={{ color: 'var(--text)' }}>{pct}%</strong> · Còn lại: <strong style={{ color: 'var(--text)' }}>{e.capacity - e.sold}</strong> vé</div>
+                      <div style={{ fontSize: 11, color: 'var(--text3)', marginTop: 6 }}>Tỉ lệ lấp đầy: <strong style={{ color: 'var(--text)' }}>{pct}%</strong> · Remaining: <strong style={{ color: 'var(--text)' }}>{e.capacity - e.sold}</strong> vé</div>
                     </div>
                   );
                 })}
@@ -320,7 +320,7 @@ export default function OrganizerDashboard() {
               <div className="table-wrap">
                 <table className="data-table">
                   <thead>
-                    <tr><th>Mã đơn</th><th>Sự kiện</th><th>Tổng tiền</th><th>Trạng thái</th><th>Ngày</th></tr>
+                    <tr><th>Mã đơn</th><th>Events</th><th>Total</th><th>Status</th><th>Days</th></tr>
                   </thead>
                   <tbody>
                     {orders.slice(0, 50).map(o => (
@@ -328,7 +328,7 @@ export default function OrganizerDashboard() {
                         <td style={{ fontFamily: 'monospace', fontSize: 12, color: 'var(--gold)' }}>{o.order_code}</td>
                         <td style={{ fontSize: 13 }}>{o.event_title}</td>
                         <td style={{ fontFamily: 'Cormorant Garamond,serif', fontSize: 16 }}>{fmt(o.total)}đ</td>
-                        <td><span className={`status-tag status-${o.status}`}>{o.status === 'paid' ? 'Đã thanh toán' : o.status === 'pending' ? 'Chờ thanh toán' : o.status === 'cancelled' ? 'Đã hủy' : 'Đã hoàn'}</span></td>
+                        <td><span className={`status-tag status-${o.status}`}>{o.status === 'paid' ? 'Paid' : o.status === 'pending' ? 'Chờ thanh toán' : o.status === 'cancelled' ? 'Đã hủy' : 'Đã hoàn'}</span></td>
                         <td style={{ fontSize: 12, color: 'var(--text3)' }}>{fmtD(o.created_at)}</td>
                       </tr>
                     ))}

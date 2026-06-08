@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+﻿import React, { useState, useEffect } from 'react';
 import api from '../../services/api';
 import toast from 'react-hot-toast';
 
@@ -71,7 +71,7 @@ export default function AdminCoupons() {
     <div>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 20 }}>
         <div>
-          <h2 style={{ fontFamily: 'Cormorant Garamond,serif', fontSize: 22, fontWeight: 700, marginBottom: 4 }}>Mã giảm giá</h2>
+          <h2 style={{ fontFamily: 'Cormorant Garamond,serif', fontSize: 22, fontWeight: 700, marginBottom: 4 }}>Coupon Code</h2>
           <p style={{ fontSize: 12, color: 'var(--text3)' }}>Tạo và quản lý mã giảm giá cho các sự kiện</p>
         </div>
         <button className="btn btn-gold" onClick={() => { setForm({ ...defaultForm, code: genCode() }); setShowForm(true); }}>
@@ -124,7 +124,7 @@ export default function AdminCoupons() {
             </div>
           </div>
           <div style={{ marginBottom: 16 }}>
-            <label style={{ display: 'block', fontSize: 10, letterSpacing: 2, color: 'var(--text3)', textTransform: 'uppercase', marginBottom: 6 }}>Áp dụng cho sự kiện (để trống = tất cả)</label>
+            <label style={{ display: 'block', fontSize: 10, letterSpacing: 2, color: 'var(--text3)', textTransform: 'uppercase', marginBottom: 6 }}>Apply cho sự kiện (để trống = tất cả)</label>
             <select className="field-select" value={form.event_id} onChange={e => set('event_id', e.target.value)} style={{ marginBottom: 0 }}>
               <option value="">Tất cả sự kiện</option>
               {events.map(ev => <option key={ev.id} value={ev.id}>{ev.title || ev.name}</option>)}
@@ -181,7 +181,7 @@ export default function AdminCoupons() {
                     </div>
                     <div style={{ fontSize: 11, color: 'var(--text3)', marginTop: 2 }}>
                       Đã dùng: {cp.used_count}/{cp.usage_limit || '∞'} · Hết hạn: {fmtD(cp.expires_at)}
-                      {cp.event_id && ` · Sự kiện #${cp.event_id}`}
+                      {cp.event_id && ` · Events #${cp.event_id}`}
                     </div>
                   </div>
                   <div style={{ display: 'flex', gap: 6 }}>

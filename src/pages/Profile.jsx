@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+﻿import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import api from '../services/api';
@@ -9,8 +9,8 @@ const fmtD = d => new Date(d).toLocaleDateString('vi-VN', { day: '2-digit', mont
 
 const TABS = [
   { k: 'info', label: 'Thông tin cá nhân', icon: '👤' },
-  { k: 'password', label: 'Đổi mật khẩu', icon: '🔐' },
-  { k: 'favorites', label: 'Sự kiện yêu thích', icon: '❤️' },
+  { k: 'password', label: 'Change Password', icon: '🔐' },
+  { k: 'favorites', label: 'Events yêu thích', icon: '❤️' },
   { k: 'history', label: 'Lịch sử thanh toán', icon: '📜' },
   { k: 'security', label: 'Bảo mật', icon: '🛡' },
 ];
@@ -44,18 +44,18 @@ export default function Profile() {
     try {
       const { data } = await api.put('/auth/profile', f);
       updateUser(data.user);
-      toast.success('Cập nhật thông tin thành công!');
+      toast.success('Update Information thành công!');
     } catch (e) { toast.error(e.response?.data?.message || 'Lỗi'); }
     finally { setSaving(false); }
   };
 
   const savePw = async e => {
     e.preventDefault();
-    if (pw.newPw !== pw.confirm) { toast.error('Mật khẩu mới không khớp'); return; }
+    if (pw.newPw !== pw.confirm) { toast.error('Password mới không khớp'); return; }
     setPwSaving(true);
     try {
       await api.put('/auth/change-password', { currentPassword: pw.current, newPassword: pw.newPw });
-      toast.success('Đổi mật khẩu thành công!');
+      toast.success('Change Password thành công!');
       setPw({ current: '', newPw: '', confirm: '' });
     } catch (e) { toast.error(e.response?.data?.message || 'Lỗi'); }
     finally { setPwSaving(false); }
@@ -142,7 +142,7 @@ export default function Profile() {
               </div>
             </div>
             <div className="field">
-              <label className="field-label">Họ và tên</label>
+              <label className="field-label">Full Name</label>
               <input className="field-input" value={f.name} onChange={e => setF({ ...f, name: e.target.value })} required placeholder="Nguyễn Văn An" />
             </div>
             <div className="field">
@@ -150,37 +150,37 @@ export default function Profile() {
               <input className="field-input" value={user?.email || ''} disabled style={{ opacity: .5, cursor: 'not-allowed' }} />
             </div>
             <div className="field">
-              <label className="field-label">Số điện thoại</label>
+              <label className="field-label">Phone Number</label>
               <input className="field-input" value={f.phone} onChange={e => setF({ ...f, phone: e.target.value })} placeholder="0901 234 567" />
             </div>
             <div className="field">
-              <label className="field-label">Vai trò tài khoản</label>
-              <input className="field-input" value={user?.role === 'admin' ? 'Quản trị viên' : user?.role === 'organizer' ? 'Ban tổ chức' : 'Thành viên'} disabled style={{ opacity: .5 }} />
+              <label className="field-label">Role tài khoản</label>
+              <input className="field-input" value={user?.role === 'admin' ? 'Admin viên' : user?.role === 'organizer' ? 'Ban tổ chức' : 'Member'} disabled style={{ opacity: .5 }} />
             </div>
             <button type="submit" className="btn btn-gold" style={{ padding: '11px 32px' }} disabled={saving}>
-              {saving ? 'Đang lưu...' : '💾 Lưu thay đổi'}
+              {saving ? 'Đang lưu...' : '💾 Save Changes'}
             </button>
           </form>
         )}
 
-        {/* Tab: Đổi mật khẩu */}
+        {/* Tab: Change Password */}
         {tab === 'password' && (
           <form onSubmit={savePw} style={{ maxWidth: 400 }}>
             <div className="field">
-              <label className="field-label">Mật khẩu hiện tại</label>
+              <label className="field-label">Password hiện tại</label>
               <input className="field-input" type="password" value={pw.current} onChange={e => setPw({ ...pw, current: e.target.value })} required autoFocus />
             </div>
             <div className="field">
-              <label className="field-label">Mật khẩu mới</label>
+              <label className="field-label">Password mới</label>
               <input className="field-input" type="password" value={pw.newPw} onChange={e => setPw({ ...pw, newPw: e.target.value })} required placeholder="Tối thiểu 6 ký tự" />
             </div>
             <div className="field">
-              <label className="field-label">Xác nhận mật khẩu mới</label>
+              <label className="field-label">Confirm mật khẩu mới</label>
               <input className="field-input" type="password" value={pw.confirm} onChange={e => setPw({ ...pw, confirm: e.target.value })} required placeholder="Nhập lại mật khẩu mới" />
-              {pw.confirm && pw.newPw !== pw.confirm && <div className="field-error">Mật khẩu không khớp</div>}
+              {pw.confirm && pw.newPw !== pw.confirm && <div className="field-error">Password không khớp</div>}
             </div>
             <button type="submit" className="btn btn-gold" style={{ padding: '11px 32px' }} disabled={pwSaving || (pw.confirm && pw.newPw !== pw.confirm)}>
-              {pwSaving ? 'Đang đổi...' : '🔐 Đổi mật khẩu'}
+              {pwSaving ? 'Đang đổi...' : '🔐 Change Password'}
             </button>
           </form>
         )}
@@ -208,7 +208,7 @@ export default function Profile() {
                         <div style={{ fontFamily: 'Cormorant Garamond, serif', fontSize: 16, fontWeight: 700, marginBottom: 4, cursor: 'pointer' }} onClick={() => navigate(`/events/${e.slug || e.id}`)}>{e.title}</div>
                         <div style={{ fontSize: 11, color: 'var(--text3)', marginBottom: 10 }}>📅 {fmtD(e.start_date)}{e.venue_name && ` · 📍 ${e.venue_name}`}</div>
                         <div style={{ display: 'flex', gap: 8 }}>
-                          <button className="btn btn-gold btn-sm" style={{ flex: 1 }} onClick={() => navigate(`/events/${e.slug || e.id}`)}>Xem chi tiết</button>
+                          <button className="btn btn-gold btn-sm" style={{ flex: 1 }} onClick={() => navigate(`/events/${e.slug || e.id}`)}>View Details</button>
                           <button className="btn btn-danger btn-sm" onClick={() => removeFavorite(e.id)}>❌</button>
                         </div>
                       </div>
@@ -228,19 +228,19 @@ export default function Profile() {
                   <div className="empty-icon">📜</div>
                   <div className="empty-title">Chưa có lịch sử thanh toán</div>
                   <div className="empty-sub">Các đơn hàng đã đặt sẽ xuất hiện ở đây</div>
-                  <button className="btn btn-dark" style={{ marginTop: 16 }} onClick={() => navigate('/events')}>Đặt vé ngay</button>
+                  <button className="btn btn-dark" style={{ marginTop: 16 }} onClick={() => navigate('/events')}>Book Now</button>
                 </div>
               ) : (
                 <div>
                   <div style={{ fontSize: 12, color: 'var(--text3)', marginBottom: 16 }}>
                     Tổng: <strong style={{ color: 'var(--text)' }}>{orders.length}</strong> đơn hàng ·
-                    Đã thanh toán: <strong style={{ color: '#1a5c3a' }}>{orders.filter(o => o.status === 'paid').length}</strong> ·
-                    Tổng tiền: <strong style={{ color: 'var(--gold)' }}>{fmt(orders.filter(o => o.status === 'paid').reduce((s, o) => s + Number(o.total || 0), 0))}đ</strong>
+                    Paid: <strong style={{ color: '#1a5c3a' }}>{orders.filter(o => o.status === 'paid').length}</strong> ·
+                    Total: <strong style={{ color: 'var(--gold)' }}>{fmt(orders.filter(o => o.status === 'paid').reduce((s, o) => s + Number(o.total || 0), 0))}đ</strong>
                   </div>
                   <div className="table-wrap">
                     <table className="data-table">
                       <thead>
-                        <tr><th>Mã đơn</th><th>Sự kiện</th><th>Số vé</th><th>Tổng tiền</th><th>Thanh toán</th><th>Trạng thái</th><th>Ngày</th></tr>
+                        <tr><th>Mã đơn</th><th>Events</th><th>Số vé</th><th>Total</th><th>Payment</th><th>Status</th><th>Days</th></tr>
                       </thead>
                       <tbody>
                         {orders.map(o => (
@@ -249,7 +249,7 @@ export default function Profile() {
                             <td style={{ fontSize: 13, maxWidth: 200, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{o.event_title}</td>
                             <td style={{ textAlign: 'center' }}>{o.ticket_count || 1}</td>
                             <td style={{ fontFamily: 'Cormorant Garamond, serif', fontSize: 16 }}>{fmt(o.total)}đ</td>
-                            <td><span className={`status-tag status-${o.payment_status}`}>{o.payment_status === 'paid' ? 'Đã thanh toán' : o.payment_status === 'pending' ? 'Chờ thanh toán' : o.payment_status === 'refunded' ? 'Đã hoàn' : 'Thất bại'}</span></td>
+                            <td><span className={`status-tag status-${o.payment_status}`}>{o.payment_status === 'paid' ? 'Paid' : o.payment_status === 'pending' ? 'Chờ thanh toán' : o.payment_status === 'refunded' ? 'Đã hoàn' : 'Thất bại'}</span></td>
                             <td><span className={`status-tag status-${o.status}`}>{o.status === 'paid' ? 'Hoàn thành' : o.status === 'pending' ? 'Đang xử lý' : o.status === 'cancelled' ? 'Đã hủy' : 'Đã hoàn vé'}</span></td>
                             <td style={{ fontSize: 12, color: 'var(--text3)' }}>{fmtD(o.created_at)}</td>
                           </tr>
@@ -267,7 +267,7 @@ export default function Profile() {
           <div style={{ maxWidth: 480 }}>
             {[
               { title: 'Xác thực hai yếu tố (2FA)', desc: 'Bảo vệ tài khoản bằng OTP khi đăng nhập', status: 'Chưa bật', statusClass: 'status-draft' },
-              { title: 'Đăng nhập Google', desc: 'Liên kết tài khoản Google để đăng nhập nhanh', status: 'Chưa liên kết', statusClass: 'status-draft' },
+              { title: 'Login Google', desc: 'Liên kết tài khoản Google để đăng nhập nhanh', status: 'Chưa liên kết', statusClass: 'status-draft' },
               { title: 'Phiên đăng nhập', desc: 'Quản lý thiết bị và vị trí đang đăng nhập', status: 'Đang hoạt động', statusClass: 'status-active' },
             ].map((item, i) => (
               <div key={i} style={{ background: 'var(--bg3)', border: '1px solid var(--border2)', borderRadius: 4, padding: '18px 20px', marginBottom: 12, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>

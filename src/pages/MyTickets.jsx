@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from 'react';
+﻿import React, { useState, useEffect, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import api from '../services/api';
 import toast from 'react-hot-toast';
@@ -320,7 +320,7 @@ function ReviewModal({ order, onClose, onSubmit }) {
           <button onClick={onClose} style={{ background:'none', border:'1px solid #d4c8b0', color:'#8a7f72', padding:'9px 20px', fontSize:12, cursor:'pointer', fontFamily:'inherit', borderRadius:4 }}>Hủy bỏ</button>
           <button onClick={handleSubmit} disabled={submitting}
             style={{ background:'#c9a84c', border:'none', color:'#1a1510', padding:'9px 24px', fontSize:12, fontWeight:700, cursor:'pointer', fontFamily:'inherit', borderRadius:4, opacity: submitting ? .6 : 1 }}>
-            {submitting ? 'Đang gửi...' : '⭐ Gửi đánh giá'}
+            {submitting ? 'Đang gửi...' : '⭐ Send đánh giá'}
           </button>
         </div>
       </div>

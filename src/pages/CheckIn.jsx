@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+﻿import React, { useState } from 'react';
 import api from '../services/api';
 import toast from 'react-hot-toast';
 
@@ -19,7 +19,7 @@ export default function CheckIn() {
       setCode('');
       toast.success(data.message);
     } catch (e) {
-      const msg = e.response?.data?.message || 'Mã vé không hợp lệ';
+      const msg = e.response?.data?.message || 'Ticket Code không hợp lệ';
       setResult({ success: false, message: msg });
       setHistory(h => [{ code: c, success: false, message: msg, time: new Date() }, ...h.slice(0, 19)]);
       toast.error(msg);
@@ -39,7 +39,7 @@ export default function CheckIn() {
       <div className="section" style={{ maxWidth: 600 }}>
         {/* Input mã vé */}
         <div style={{ background: 'var(--bg3)', border: '1px solid var(--border2)', borderRadius: 4, padding: '24px', marginBottom: 20 }}>
-          <div style={{ fontSize: 11, letterSpacing: 2, color: 'var(--text3)', textTransform: 'uppercase', marginBottom: 16 }}>Nhập mã vé</div>
+          <div style={{ fontSize: 11, letterSpacing: 2, color: 'var(--text3)', textTransform: 'uppercase', marginBottom: 16 }}>Enter ticket code</div>
           <div style={{ display: 'flex', gap: 10 }}>
             <input
               className="field-input"
@@ -68,7 +68,7 @@ export default function CheckIn() {
                 <div style={{ fontSize: 16, fontWeight: 600, color: result.success ? '#1a5c3a' : '#8b1a1a', marginBottom: 4 }}>{result.message}</div>
                 {result.success && result.data && (
                   <div style={{ fontSize: 12, color: 'var(--text3)' }}>
-                    🎫 Mã vé: <strong style={{ fontFamily: 'monospace', color: 'var(--gold)' }}>{result.data.ticketCode}</strong>
+                    🎫 Ticket Code: <strong style={{ fontFamily: 'monospace', color: 'var(--gold)' }}>{result.data.ticketCode}</strong>
                     {result.data.event && ` · 📅 ${result.data.event}`}
                   </div>
                 )}

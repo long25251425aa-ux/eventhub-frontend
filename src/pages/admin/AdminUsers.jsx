@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+﻿import React, { useState, useEffect } from 'react';
 import api from '../../services/api';
 import toast from 'react-hot-toast';
 
@@ -8,7 +8,7 @@ const ROLES = ['user', 'organizer', 'admin', 'support'];
 const ROLE_COLORS = { admin: '#c9a84c', organizer: '#2563eb', user: '#8a7f72', support: '#7c3aed' };
 const ROLE_LABELS = { user: 'User', organizer: 'Organizer', admin: 'Admin', support: 'Support' };
 const ROLE_DESC = {
-  user: 'Người dùng thông thường, đặt vé và xem sự kiện',
+  user: 'Users thông thường, đặt vé và xem sự kiện',
   organizer: 'Tạo và quản lý sự kiện',
   admin: 'Toàn quyền quản trị hệ thống',
   support: 'Trả lời tin nhắn khách hàng qua Live Chat',
@@ -60,7 +60,7 @@ function RoleModal({ user: u, onClose, onSave }) {
           <button onClick={onClose} style={{ background:'none', border:'1px solid #d4c8b0', color:'#8a7f72', padding:'9px 20px', fontSize:12, cursor:'pointer', fontFamily:'inherit', borderRadius:4 }}>Hủy</button>
           <button onClick={save} disabled={saving || selected===u.role}
             style={{ background:'#1a1510', border:'none', color:'#c9a84c', padding:'9px 24px', fontSize:12, fontWeight:700, cursor: selected===u.role?'default':'pointer', fontFamily:'inherit', borderRadius:4, opacity: selected===u.role?.5:1 }}>
-            {saving ? 'Đang lưu...' : 'Lưu thay đổi'}
+            {saving ? 'Đang lưu...' : 'Save Changes'}
           </button>
         </div>
       </div>
@@ -115,7 +115,7 @@ export default function AdminUsers() {
     const roleList = roles.filter(r => r !== currentRole);
     const roleText = roleList.map((r, i) => `${i+1}. ${labels[r]}`).join('\n');
     const choice = window.prompt(
-      `Đổi vai trò cho "${name}"?\nVai trò hiện tại: ${labels[currentRole]}\n\nChọn vai trò mới (nhập số):\n${roleText}`
+      `Đổi vai trò cho "${name}"?\nRole hiện tại: ${labels[currentRole]}\n\nChọn vai trò mới (nhập số):\n${roleText}`
     );
     if (!choice) return;
     const idx2 = parseInt(choice.trim()) - 1;
@@ -147,7 +147,7 @@ export default function AdminUsers() {
           <option value="">Tất cả vai trò</option>
           <option value="admin">Admin</option>
           <option value="organizer">Ban tổ chức</option>
-          <option value="user">Người dùng</option>
+          <option value="user">Users</option>
         </select>
         <span style={{ fontSize: 12, color: 'var(--text3)' }}>Tổng: <strong style={{ color: 'var(--text)' }}>{total}</strong> tài khoản</span>
       </div>
@@ -164,12 +164,12 @@ export default function AdminUsers() {
           <table className="data-table">
             <thead>
               <tr>
-                <th>Người dùng</th>
+                <th>Users</th>
                 <th>Email</th>
-                <th>Số điện thoại</th>
-                <th>Vai trò</th>
-                <th>Ngày tham gia</th>
-                <th>Trạng thái</th>
+                <th>Phone Number</th>
+                <th>Role</th>
+                <th>Days tham gia</th>
+                <th>Status</th>
                 <th>Thao tác</th>
               </tr>
             </thead>

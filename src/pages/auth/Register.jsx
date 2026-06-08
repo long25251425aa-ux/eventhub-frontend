@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+﻿import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import toast from 'react-hot-toast';
@@ -13,7 +13,7 @@ export default function Register() {
     e.preventDefault(); setLoading(true);
     const r = await register(f.name, f.email, f.password, f.phone);
     setLoading(false);
-    if (r.success) { toast.success('Đăng ký thành công! Chào mừng bạn!'); nav('/'); }
+    if (r.success) { toast.success('Register thành công! Chào mừng bạn!'); nav('/'); }
     else toast.error(r.message);
   };
 
@@ -31,7 +31,7 @@ export default function Register() {
         </div>
         <form onSubmit={submit} style={{ padding: '28px 32px' }}>
           <div style={{ marginBottom: 16 }}>
-            <label style={lbl}>Họ và tên</label>
+            <label style={lbl}>Full Name</label>
             <input style={inp} value={f.name} onChange={e => setF({ ...f, name: e.target.value })} placeholder="Nguyễn Văn An" required autoFocus />
           </div>
           <div style={{ marginBottom: 16 }}>
@@ -40,11 +40,11 @@ export default function Register() {
           </div>
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12, marginBottom: 20 }}>
             <div>
-              <label style={lbl}>Mật khẩu</label>
+              <label style={lbl}>Password</label>
               <input style={inp} type="password" value={f.password} onChange={e => setF({ ...f, password: e.target.value })} placeholder="Tối thiểu 6 ký tự" required />
             </div>
             <div>
-              <label style={lbl}>Số điện thoại</label>
+              <label style={lbl}>Phone Number</label>
               <input style={inp} type="tel" value={f.phone} onChange={e => setF({ ...f, phone: e.target.value })} placeholder="0901 234 567" />
             </div>
           </div>
@@ -53,7 +53,7 @@ export default function Register() {
             {loading ? 'Đang xử lý...' : 'Tạo tài khoản'}
           </button>
           <div style={{ textAlign: 'center', marginTop: 20, fontSize: 12, color: 'var(--text3)' }}>
-            Đã có tài khoản? <Link to="/login" style={{ color: '#c9a84c' }}>Đăng nhập</Link>
+            Đã có tài khoản? <Link to="/login" style={{ color: '#c9a84c' }}>Login</Link>
           </div>
         </form>
       </div>

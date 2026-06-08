@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+﻿import React, { useState, useEffect } from 'react';
 import { Routes, Route, Link, useLocation } from 'react-router-dom';
 import api from '../../services/api';
 import AdminEvents from './AdminEvents';
@@ -25,11 +25,11 @@ export default function AdminDashboard() {
   useEffect(() => { loadStats(); }, []);
 
   const tabs = [
-    { to: '/admin', label: 'Sự kiện' },
+    { to: '/admin', label: 'Events' },
     { to: '/admin/orders', label: 'Đơn đặt vé' },
     { to: '/admin/refunds', label: pendingRefunds > 0 ? `Hoàn vé (${pendingRefunds})` : 'Hoàn vé' },
-    { to: '/admin/users', label: 'Người dùng' },
-    { to: '/admin/coupons', label: '🏷️ Mã giảm giá' },
+    { to: '/admin/users', label: 'Users' },
+    { to: '/admin/coupons', label: '🏷️ Coupon Code' },
     { to: '/admin/report', label: 'Báo cáo' },
   ];
   const act = p => p === '/admin' ? pathname === p : pathname.startsWith(p);
@@ -38,17 +38,17 @@ export default function AdminDashboard() {
     <div>
       <div className="admin-hero">
         <div className="ah-eye">Bảng điều khiển</div>
-        <h1 className="section-title serif" style={{ color: '#faf7f2' }}>Quản trị hệ thống</h1>
+        <h1 className="section-title serif" style={{ color: '#faf7f2' }}>Admin hệ thống</h1>
       </div>
       <div className="section">
         {stats && (
           <div className="astats">
             {[
-              { n: stats.totalEvents, l: 'Sự kiện', c: 'var(--gold)' },
-              { n: stats.totalTickets, l: 'Vé đã bán', c: '#1a5c3a' },
+              { n: stats.totalEvents, l: 'Events', c: 'var(--gold)' },
+              { n: stats.totalTickets, l: 'Tickets Sold', c: '#1a5c3a' },
               { n: fmtMoney(stats.totalRevenue), l: 'Doanh thu', c: '#8b5e00' },
               { n: (stats.checkinRate || 0) + '%', l: 'Tỉ lệ Check-in', c: '#993556' },
-              { n: stats.totalUsers || 0, l: 'Người dùng', c: '#2563eb' },
+              { n: stats.totalUsers || 0, l: 'Users', c: '#2563eb' },
             ].map(s => (
               <div key={s.l} className="astat-card">
                 <div className="astat-n serif" style={{ color: s.c }}>{s.n}</div>

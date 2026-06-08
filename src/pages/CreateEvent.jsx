@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+﻿import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import api from '../services/api';
@@ -8,10 +8,10 @@ const TICKET_TYPES = [
   { value: 'paid',       label: 'Vé thường',    icon: '🎫', color: '#8a7f72' },
   { value: 'vip',        label: 'VIP',           icon: '💎', color: '#c9a84c' },
   { value: 'early_bird', label: 'Early Bird',    icon: '🐦', color: '#2563eb' },
-  { value: 'free',       label: 'Miễn phí',      icon: '🎁', color: '#1a5c3a' },
+  { value: 'free',       label: 'Free',      icon: '🎁', color: '#1a5c3a' },
 ];
 
-const STEPS = ['Thông tin cơ bản', 'Địa điểm & Thời gian', 'Loại vé', 'Mã giảm giá', 'Xem trước & Xuất bản'];
+const STEPS = ['Thông tin cơ bản', 'Location & Thời gian', 'Ticket Types', 'Coupon Code', 'Xem trước & Publish'];
 
 // ── Image uploader ──────────────────────────────────
 function ImageUploader({ value, onChange, label, hint, maxW = 900 }) {
@@ -93,7 +93,7 @@ function SeatMapUploader({ value, onChange }) {
 // ── Preview modal ───────────────────────────────────
 function PreviewModal({ form, categories, onClose }) {
   const cat = categories.find(c => String(c.id) === String(form.category_id));
-  const fmt = n => n === 0 ? 'Miễn phí' : new Intl.NumberFormat('vi-VN').format(n) + 'đ';
+  const fmt = n => n === 0 ? 'Free' : new Intl.NumberFormat('vi-VN').format(n) + 'đ';
   return (
     <div style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,.75)', display: 'flex', alignItems: 'flex-start', justifyContent: 'center', zIndex: 600, padding: '24px 20px', overflowY: 'auto' }}>
       <div style={{ background: 'var(--bg3)', width: 760, maxWidth: '100%', borderRadius: 4, overflow: 'hidden', boxShadow: '0 24px 64px rgba(0,0,0,.5)' }}>
@@ -131,7 +131,7 @@ function PreviewModal({ form, categories, onClose }) {
           {/* Ticket types */}
           {form.ticketTypes?.length > 0 && (
             <div style={{ marginBottom: 16 }}>
-              <div style={{ fontSize: 10, letterSpacing: 2, color: 'var(--text3)', textTransform: 'uppercase', marginBottom: 10 }}>Loại vé</div>
+              <div style={{ fontSize: 10, letterSpacing: 2, color: 'var(--text3)', textTransform: 'uppercase', marginBottom: 10 }}>Ticket Types</div>
               <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
                 {form.ticketTypes.map((tt, i) => {
                   const tp = TICKET_TYPES.find(t => t.value === tt.type);
@@ -161,9 +161,9 @@ function PreviewModal({ form, categories, onClose }) {
           )}
           {/* Status */}
           <div style={{ display: 'flex', gap: 10, justifyContent: 'center', paddingTop: 16, borderTop: '1px solid var(--border2)' }}>
-            <span style={{ fontSize: 12, color: 'var(--text3)' }}>Trạng thái:</span>
+            <span style={{ fontSize: 12, color: 'var(--text3)' }}>Status:</span>
             <span style={{ fontSize: 12, fontWeight: 600, color: form.status === 'published' ? '#1a5c3a' : '#8a7f72' }}>
-              {form.status === 'published' ? '🟢 Xuất bản ngay' : '⚪ Lưu nháp'}
+              {form.status === 'published' ? '🟢 Publish ngay' : '⚪ Save Draft'}
             </span>
           </div>
         </div>
@@ -241,7 +241,7 @@ export default function CreateEvent() {
           }
         }
       }
-      toast.success(status === 'published' ? '🎉 Sự kiện đã xuất bản thành công!' : '💾 Đã lưu bản nháp!');
+      toast.success(status === 'published' ? '🎉 Events đã xuất bản thành công!' : '💾 Đã lưu bản nháp!');
       nav(status === 'published' ? `/events/${data.slug || data.id}` : '/organizer');
     } catch (e) { toast.error(e.response?.data?.message || 'Lỗi tạo sự kiện'); }
     finally { setSaving(false); }
@@ -300,7 +300,7 @@ export default function CreateEvent() {
             </div>
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 14, marginBottom: 20 }}>
               <div>
-                {lbl('Danh mục *')}
+                {lbl('Categories *')}
                 <select className="field-select" value={form.category_id} onChange={e => set('category_id', e.target.value)}>
                   <option value="">-- Chọn danh mục --</option>
                   {categories.map(c => <option key={c.id} value={c.id}>{c.icon} {c.name}</option>)}
@@ -319,8 +319,8 @@ export default function CreateEvent() {
               </div>
             </div>
             <div style={{ marginBottom: 20 }}>
-              {lbl('Mô tả chi tiết')}
-              <textarea className="field-textarea" rows={5} value={form.description} onChange={e => set('description', e.target.value)} placeholder="Mô tả nội dung, chủ đề, đối tượng tham dự..." style={{ marginBottom: 0 }} />
+              {lbl('Description chi tiết')}
+              <textarea className="field-textarea" rows={5} value={form.description} onChange={e => set('description', e.target.value)} placeholder="Description nội dung, chủ đề, đối tượng tham dự..." style={{ marginBottom: 0 }} />
             </div>
             <div style={{ marginBottom: 20 }}>
               <ImageUploader value={form.thumbnail} onChange={v => set('thumbnail', v)} label="Ảnh thumbnail sự kiện" hint="Ảnh chính hiển thị trong danh sách (16:9)" maxW={900} />
@@ -341,16 +341,16 @@ export default function CreateEvent() {
           </div>
         )}
 
-        {/* ── STEP 1: Địa điểm & Thời gian ─────────── */}
+        {/* ── STEP 1: Location & Thời gian ─────────── */}
         {step === 1 && (
           <div>
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 14, marginBottom: 20 }}>
               <div>
-                {lbl('Ngày & giờ bắt đầu *')}
+                {lbl('Days & giờ bắt đầu *')}
                 <input {...inp} type="datetime-local" value={form.start_date} onChange={e => set('start_date', e.target.value)} />
               </div>
               <div>
-                {lbl('Ngày & giờ kết thúc')}
+                {lbl('Days & giờ kết thúc')}
                 <input {...inp} type="datetime-local" value={form.end_date} onChange={e => set('end_date', e.target.value)} />
               </div>
             </div>
@@ -375,11 +375,11 @@ export default function CreateEvent() {
               </>
             )}
             <div style={{ marginBottom: 20 }}>
-              {lbl('Sức chứa tối đa')}
+              {lbl('Capacity tối đa')}
               <input {...inp} type="number" min={1} value={form.capacity} onChange={e => set('capacity', +e.target.value)} />
             </div>
             <div style={{ marginBottom: 20 }}>
-              {lbl('Chính sách hoàn vé')}
+              {lbl('Refund Policy')}
               <textarea className="field-textarea" rows={3} value={form.refund_policy} onChange={e => set('refund_policy', e.target.value)} style={{ marginBottom: 0 }} />
             </div>
             <div style={{ marginBottom: 20 }}>
@@ -387,10 +387,10 @@ export default function CreateEvent() {
               <textarea className="field-textarea" rows={3} value={form.terms||''} onChange={e => set('terms', e.target.value)} placeholder="Quy định, điều kiện tham dự..." style={{ marginBottom: 0 }} />
             </div>
 
-            {/* Lịch trình chương trình */}
+            {/* Schedule chương trình */}
             <div style={{ marginBottom: 0 }}>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 12 }}>
-                {lbl('Lịch trình chương trình (Timeline)')}
+                {lbl('Schedule chương trình (Timeline)')}
                 <button type="button" onClick={addAgenda} className="btn btn-dark btn-sm">+ Thêm mục</button>
               </div>
               {(form.agenda||[]).length === 0 && <div style={{ fontSize: 12, color: 'var(--text3)', padding: '12px 0' }}>Chưa có lịch trình. Nhấn "+ Thêm mục" để thêm.</div>}
@@ -398,7 +398,7 @@ export default function CreateEvent() {
                 <div key={i} style={{ display: 'grid', gridTemplateColumns: '100px 1fr 2fr auto', gap: 8, marginBottom: 8, padding: 12, background: 'var(--bg2)', borderRadius: 4 }}>
                   <input {...inp} value={a.time} onChange={e => updateAgenda(i, 'time', e.target.value)} placeholder="08:00" />
                   <input {...inp} value={a.title} onChange={e => updateAgenda(i, 'title', e.target.value)} placeholder="Tiêu đề..." />
-                  <input {...inp} value={a.desc||''} onChange={e => updateAgenda(i, 'desc', e.target.value)} placeholder="Mô tả ngắn..." />
+                  <input {...inp} value={a.desc||''} onChange={e => updateAgenda(i, 'desc', e.target.value)} placeholder="Description ngắn..." />
                   <button type="button" onClick={() => removeAgenda(i)} style={{ background: 'none', border: 'none', color: '#8b1a1a', cursor: 'pointer', fontSize: 18, padding: '0 4px' }}>×</button>
                 </div>
               ))}
@@ -406,7 +406,7 @@ export default function CreateEvent() {
           </div>
         )}
 
-        {/* ── STEP 2: Loại vé ───────────────────────── */}
+        {/* ── STEP 2: Ticket Types ───────────────────────── */}
         {step === 2 && (
           <div>
             <div style={{ display: 'flex', gap: 8, marginBottom: 20, flexWrap: 'wrap' }}>
@@ -442,11 +442,11 @@ export default function CreateEvent() {
                   <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr 1fr 1fr', gap: 10, marginBottom: 10 }}>
                     <div>{lbl('Tên loại vé')} <input {...inp} value={tt.name} onChange={e => updateTicket(i, 'name', e.target.value)} /></div>
                     <div>{lbl('Giá (VNĐ)')} <input {...inp} type="number" min={0} value={tt.price} onChange={e => updateTicket(i, 'price', +e.target.value)} disabled={tt.type==='free'} style={{ ...inp.style, opacity: tt.type==='free' ? .5 : 1 }} /></div>
-                    <div>{lbl('Số lượng')} <input {...inp} type="number" min={1} value={tt.quantity} onChange={e => updateTicket(i, 'quantity', +e.target.value)} /></div>
+                    <div>{lbl('Quantity')} <input {...inp} type="number" min={1} value={tt.quantity} onChange={e => updateTicket(i, 'quantity', +e.target.value)} /></div>
                     <div>{lbl('Tối đa/đơn')} <input {...inp} type="number" min={1} max={10} value={tt.max_per_order} onChange={e => updateTicket(i, 'max_per_order', +e.target.value)} /></div>
                   </div>
                   <div style={{ marginBottom: 10 }}>
-                    {lbl('Mô tả quyền lợi')}
+                    {lbl('Description quyền lợi')}
                     <input {...inp} value={tt.description} onChange={e => updateTicket(i, 'description', e.target.value)} placeholder={tt.type==='vip'?'Bao gồm: chỗ ngồi VIP, quà tặng, gặp gỡ diễn giả...':tt.type==='early_bird'?'Ưu đãi dành cho 50 người đăng ký đầu tiên...':'Nhập mô tả...'} />
                   </div>
                   <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10 }}>
@@ -459,12 +459,12 @@ export default function CreateEvent() {
           </div>
         )}
 
-        {/* ── STEP 3: Mã giảm giá ──────────────────── */}
+        {/* ── STEP 3: Coupon Code ──────────────────── */}
         {step === 3 && (
           <div>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 20 }}>
               <div>
-                <div style={{ fontSize: 14, fontWeight: 600, marginBottom: 4 }}>Mã giảm giá cho sự kiện</div>
+                <div style={{ fontSize: 14, fontWeight: 600, marginBottom: 4 }}>Coupon Code cho sự kiện</div>
                 <div style={{ fontSize: 12, color: 'var(--text3)' }}>Tạo mã để tặng khán giả VIP hoặc chạy chiến dịch marketing</div>
               </div>
               <button type="button" onClick={addCoupon} className="btn btn-dark">+ Tạo mã giảm giá</button>
@@ -507,21 +507,21 @@ export default function CreateEvent() {
           </div>
         )}
 
-        {/* ── STEP 4: Xem trước & Xuất bản ─────────── */}
+        {/* ── STEP 4: Xem trước & Publish ─────────── */}
         {step === 4 && (
           <div>
             <div style={{ background: 'var(--bg3)', border: '1px solid var(--border2)', borderRadius: 4, padding: '20px 24px', marginBottom: 20 }}>
               <div style={{ fontSize: 11, letterSpacing: 2, color: 'var(--text3)', textTransform: 'uppercase', marginBottom: 16 }}>Tóm tắt sự kiện</div>
               {[
                 ['Tiêu đề', form.title || '(chưa nhập)'],
-                ['Danh mục', categories.find(c=>String(c.id)===String(form.category_id))?.name || '(chưa chọn)'],
+                ['Categories', categories.find(c=>String(c.id)===String(form.category_id))?.name || '(chưa chọn)'],
                 ['Hình thức', form.is_online ? 'Trực tuyến' : 'Trực tiếp'],
-                ['Địa điểm', form.is_online ? (form.online_url||'(chưa nhập)') : (form.venue_name||'(chưa nhập)')],
-                ['Ngày bắt đầu', form.start_date ? new Date(form.start_date).toLocaleString('vi-VN') : '(chưa chọn)'],
-                ['Sức chứa', form.capacity + ' người'],
-                ['Loại vé', form.ticketTypes.length + ' loại'],
-                ['Mã giảm giá', form.coupons.length > 0 ? `${form.coupons.length} mã` : 'Không có'],
-                ['Lịch trình', (form.agenda||[]).length > 0 ? `${form.agenda.length} mục` : 'Chưa thêm'],
+                ['Location', form.is_online ? (form.online_url||'(chưa nhập)') : (form.venue_name||'(chưa nhập)')],
+                ['Days bắt đầu', form.start_date ? new Date(form.start_date).toLocaleString('vi-VN') : '(chưa chọn)'],
+                ['Capacity', form.capacity + ' người'],
+                ['Ticket Types', form.ticketTypes.length + ' loại'],
+                ['Coupon Code', form.coupons.length > 0 ? `${form.coupons.length} mã` : 'Không có'],
+                ['Schedule', (form.agenda||[]).length > 0 ? `${form.agenda.length} mục` : 'Chưa thêm'],
                 ['Ảnh thumbnail', form.thumbnail ? '✓ Đã upload' : '✗ Chưa có'],
                 ['Video trailer', form.video_trailer ? '✓ Có' : '— Không có'],
                 ['Sơ đồ chỗ ngồi', form.seat_map ? '✓ Đã upload' : '— Không có'],
@@ -536,7 +536,7 @@ export default function CreateEvent() {
             <div style={{ background: 'rgba(201,168,76,.06)', border: '1px solid rgba(201,168,76,.2)', borderRadius: 4, padding: '16px 20px', marginBottom: 24 }}>
               <div style={{ fontSize: 13, fontWeight: 600, marginBottom: 8 }}>Chọn trạng thái xuất bản</div>
               <div style={{ display: 'flex', gap: 12 }}>
-                {[['draft','⚪ Lưu nháp','Tạo xong chỉnh sửa thêm, chưa công khai'],['published','🟢 Xuất bản ngay','Người dùng có thể tìm thấy và đặt vé ngay']].map(([v,l,sub]) => (
+                {[['draft','⚪ Save Draft','Tạo xong chỉnh sửa thêm, chưa công khai'],['published','🟢 Publish ngay','Users có thể tìm thấy và đặt vé ngay']].map(([v,l,sub]) => (
                   <label key={v} style={{ flex: 1, cursor: 'pointer', display: 'flex', gap: 10, padding: '12px 14px', border: `1px solid ${form.status===v?'var(--gold)':'var(--border)'}`, borderRadius: 4, background: form.status===v?'rgba(201,168,76,.04)':'var(--bg3)' }}>
                     <input type="radio" name="status" value={v} checked={form.status===v} onChange={()=>set('status',v)} style={{ marginTop: 2, flexShrink: 0 }} />
                     <div>
@@ -558,7 +558,7 @@ export default function CreateEvent() {
         <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: 32, paddingTop: 24, borderTop: '1px solid var(--border2)' }}>
           <button type="button" onClick={() => step > 0 ? setStep(step-1) : nav(-1)}
             style={{ background: 'none', border: '1px solid var(--border)', color: 'var(--text)', padding: '11px 24px', fontSize: 11, letterSpacing: 2, cursor: 'pointer', fontFamily: 'inherit', borderRadius: 4 }}>
-            ← {step === 0 ? 'Hủy' : 'Quay lại'}
+            ← {step === 0 ? 'Hủy' : 'Back'}
           </button>
 
           <div style={{ display: 'flex', gap: 10 }}>
@@ -566,11 +566,11 @@ export default function CreateEvent() {
               <>
                 <button type="button" onClick={() => submit('draft')} disabled={saving}
                   style={{ background: 'none', border: '1px solid var(--border)', color: 'var(--text)', padding: '11px 24px', fontSize: 11, letterSpacing: 2, cursor: 'pointer', fontFamily: 'inherit', borderRadius: 4, opacity: saving ? .5 : 1 }}>
-                  💾 Lưu nháp
+                  💾 Save Draft
                 </button>
                 <button type="button" onClick={() => submit('published')} disabled={saving}
                   style={{ background: 'var(--gold)', border: 'none', color: '#1a1510', padding: '11px 32px', fontSize: 12, letterSpacing: 2, textTransform: 'uppercase', fontWeight: 700, cursor: 'pointer', fontFamily: 'inherit', borderRadius: 4, opacity: saving ? .5 : 1 }}>
-                  {saving ? 'Đang lưu...' : '🚀 Xuất bản sự kiện'}
+                  {saving ? 'Đang lưu...' : '🚀 Publish sự kiện'}
                 </button>
               </>
             ) : (

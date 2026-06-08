@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+﻿import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import toast from 'react-hot-toast';
@@ -22,7 +22,7 @@ export default function Login() {
     setLoading(false);
     if (r.success) {
       if (remember) localStorage.setItem('eh_remember', email);
-      toast.success('Đăng nhập thành công!');
+      toast.success('Login thành công!');
       nav('/');
     } else toast.error(r.message);
   };
@@ -49,7 +49,7 @@ export default function Login() {
             Event<em style={{ color: '#c9a84c', fontStyle: 'italic' }}>Hub</em>
           </div>
           <div style={{ fontSize: 10, letterSpacing: 3, color: 'rgba(201,168,76,.5)', textTransform: 'uppercase', marginTop: 6 }}>
-            {showForgot ? 'Quên mật khẩu' : 'Đăng nhập tài khoản'}
+            {showForgot ? 'Quên mật khẩu' : 'Login tài khoản'}
           </div>
         </div>
 
@@ -68,7 +68,7 @@ export default function Login() {
 
                 {/* Password */}
                 <div style={{ marginBottom: 8 }}>
-                  <label style={{ display: 'block', fontSize: 10, letterSpacing: 2, color: '#8a7f72', textTransform: 'uppercase', marginBottom: 6 }}>Mật khẩu *</label>
+                  <label style={{ display: 'block', fontSize: 10, letterSpacing: 2, color: '#8a7f72', textTransform: 'uppercase', marginBottom: 6 }}>Password *</label>
                   <div style={{ position: 'relative' }}>
                     <input value={password} onChange={e => setPassword(e.target.value)} type={showPw ? 'text' : 'password'} placeholder="••••••••" required
                       style={{ width: '100%', background: '#13100a', border: '1px solid rgba(201,168,76,.2)', color: '#faf7f2', padding: '11px 44px 11px 14px', fontFamily: 'inherit', fontSize: 13, outline: 'none', borderRadius: 4, boxSizing: 'border-box', transition: 'border-color .2s' }}
@@ -96,7 +96,7 @@ export default function Login() {
                 {/* Submit */}
                 <button type="submit" disabled={loading}
                   style={{ width: '100%', padding: 13, background: '#c9a84c', border: 'none', color: '#1a1510', fontFamily: 'inherit', fontSize: 12, letterSpacing: 2, textTransform: 'uppercase', fontWeight: 700, cursor: 'pointer', borderRadius: 4, opacity: loading ? .6 : 1, marginBottom: 16 }}>
-                  {loading ? 'Đang xử lý...' : '🔐 Đăng nhập'}
+                  {loading ? 'Đang xử lý...' : '🔐 Login'}
                 </button>
 
                 {/* Divider */}
@@ -126,7 +126,7 @@ export default function Login() {
               </form>
 
               <div style={{ textAlign: 'center', fontSize: 12, color: '#8a7f72' }}>
-                Chưa có tài khoản? <Link to="/register" style={{ color: '#c9a84c', fontWeight: 600 }}>Đăng ký ngay →</Link>
+                Chưa có tài khoản? <Link to="/register" style={{ color: '#c9a84c', fontWeight: 600 }}>Register ngay →</Link>
               </div>
 
               {/* Demo accounts */}
@@ -152,11 +152,11 @@ export default function Login() {
                   </div>
                   <button type="submit"
                     style={{ width: '100%', padding: 13, background: '#c9a84c', border: 'none', color: '#1a1510', fontFamily: 'inherit', fontSize: 12, letterSpacing: 2, textTransform: 'uppercase', fontWeight: 700, cursor: 'pointer', borderRadius: 4, marginBottom: 12 }}>
-                    📨 Gửi link đặt lại mật khẩu
+                    📨 Send link đặt lại mật khẩu
                   </button>
                   <button type="button" onClick={() => setShowForgot(false)}
                     style={{ width: '100%', padding: 10, background: 'none', border: '1px solid rgba(255,255,255,.1)', color: '#8a7f72', fontFamily: 'inherit', fontSize: 12, cursor: 'pointer', borderRadius: 4 }}>
-                    ← Quay lại đăng nhập
+                    ← Back đăng nhập
                   </button>
                 </form>
               ) : (
@@ -168,7 +168,7 @@ export default function Login() {
                   </div>
                   <button onClick={() => { setShowForgot(false); setForgotSent(false); }}
                     style={{ padding: '10px 24px', background: '#c9a84c', border: 'none', color: '#1a1510', fontFamily: 'inherit', fontSize: 12, cursor: 'pointer', borderRadius: 4, fontWeight: 700 }}>
-                    ← Quay lại đăng nhập
+                    ← Back đăng nhập
                   </button>
                 </div>
               )}

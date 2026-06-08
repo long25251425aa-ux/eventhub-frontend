@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+﻿import React, { useState, useEffect } from 'react';
 import api from '../../services/api';
 import toast from 'react-hot-toast';
 
@@ -98,7 +98,7 @@ export default function AdminReport({ stats }) {
     const map = { paid: 0, pending: 0, cancelled: 0, refunded: 0 };
     orders.forEach(o => { if (map[o.status] !== undefined) map[o.status]++; });
     return [
-      { label: 'Đã thanh toán', count: map.paid, color: '#1a5c3a' },
+      { label: 'Paid', count: map.paid, color: '#1a5c3a' },
       { label: 'Chờ thanh toán', count: map.pending, color: '#8b5e00' },
       { label: 'Đã hủy', count: map.cancelled, color: '#8b1a1a' },
       { label: 'Hoàn vé', count: map.refunded, color: '#2563eb' },
@@ -110,9 +110,9 @@ export default function AdminReport({ stats }) {
 
   // Export CSV
   const exportCSV = () => {
-    if (!orders.length) { toast.error('Không có dữ liệu để xuất'); return; }
+    if (!orders.length) { toast.error('No data để xuất'); return; }
     const rows = [
-      ['Mã đơn', 'Khách hàng', 'Email', 'Sự kiện', 'Tổng tiền', 'Trạng thái', 'Thanh toán', 'Ngày tạo'],
+      ['Mã đơn', 'Khách hàng', 'Email', 'Events', 'Total', 'Status', 'Payment', 'Days tạo'],
       ...orders.map(o => [
         o.order_code, o.user_name, o.user_email, o.event_title,
         o.total, o.status, o.payment_status,
@@ -138,10 +138,10 @@ export default function AdminReport({ stats }) {
       {/* KPI Cards */}
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))', gap: 1, background: 'var(--border)', marginBottom: 28 }}>
         {[
-          { label: 'Tổng doanh thu', value: fmt(stats?.totalRevenue || totalRevenue) + 'đ', color: '#c9a84c', icon: '💰' },
-          { label: 'Vé đã bán', value: fmt(stats?.totalTickets || 0), color: '#1a5c3a', icon: '🎫' },
-          { label: 'Sự kiện hoạt động', value: stats?.totalEvents || 0, color: '#2563eb', icon: '📅' },
-          { label: 'Người dùng', value: stats?.totalUsers || 0, color: '#7c3aed', icon: '👥' },
+          { label: 'Total Revenue', value: fmt(stats?.totalRevenue || totalRevenue) + 'đ', color: '#c9a84c', icon: '💰' },
+          { label: 'Tickets Sold', value: fmt(stats?.totalTickets || 0), color: '#1a5c3a', icon: '🎫' },
+          { label: 'Events hoạt động', value: stats?.totalEvents || 0, color: '#2563eb', icon: '📅' },
+          { label: 'Users', value: stats?.totalUsers || 0, color: '#7c3aed', icon: '👥' },
           { label: 'Tỉ lệ check-in', value: (stats?.checkinRate || 0) + '%', color: '#db2777', icon: '✅' },
           { label: 'Đơn chờ duyệt', value: totalPending, color: '#8b5e00', icon: '⏳' },
         ].map(s => (
@@ -166,7 +166,7 @@ export default function AdminReport({ stats }) {
           <BarChart data={revenueByDay} valueKey="revenue" labelKey="label" color="var(--gold)" />
         </div>
 
-        {/* Trạng thái đơn hàng */}
+        {/* Status đơn hàng */}
         <div style={{ background: 'var(--bg3)', border: '1px solid var(--border2)', borderRadius: 4, padding: '20px' }}>
           <div style={{ fontSize: 11, letterSpacing: 2, color: 'var(--text3)', textTransform: 'uppercase', marginBottom: 16 }}>Phân bổ đơn hàng</div>
           <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
@@ -189,7 +189,7 @@ export default function AdminReport({ stats }) {
         </div>
       </div>
 
-      {/* Danh mục sự kiện */}
+      {/* Categories sự kiện */}
       {stats?.byCategory?.length > 0 && (
         <div style={{ background: 'var(--bg3)', border: '1px solid var(--border2)', borderRadius: 4, padding: '20px', marginBottom: 24 }}>
           <div style={{ fontSize: 11, letterSpacing: 2, color: 'var(--text3)', textTransform: 'uppercase', marginBottom: 16 }}>Phân bổ theo danh mục</div>
@@ -236,7 +236,7 @@ export default function AdminReport({ stats }) {
           <div className="table-wrap">
             <table className="data-table">
               <thead>
-                <tr><th>Mã đơn</th><th>Khách hàng</th><th>Sự kiện</th><th>Tổng tiền</th><th>Thanh toán</th><th>Ngày</th></tr>
+                <tr><th>Mã đơn</th><th>Khách hàng</th><th>Events</th><th>Total</th><th>Payment</th><th>Days</th></tr>
               </thead>
               <tbody>
                 {orders.slice(0, 10).map(o => (
@@ -248,7 +248,7 @@ export default function AdminReport({ stats }) {
                     </td>
                     <td style={{ fontSize: 12, maxWidth: 180, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{o.event_title}</td>
                     <td style={{ fontFamily: 'Cormorant Garamond, serif', fontSize: 16 }}>{fmt(o.total)}đ</td>
-                    <td><span className={`status-tag status-${o.payment_status}`}>{o.payment_status === 'paid' ? 'Đã thanh toán' : o.payment_status === 'pending' ? 'Chờ' : o.payment_status === 'refunded' ? 'Hoàn' : 'Thất bại'}</span></td>
+                    <td><span className={`status-tag status-${o.payment_status}`}>{o.payment_status === 'paid' ? 'Paid' : o.payment_status === 'pending' ? 'Chờ' : o.payment_status === 'refunded' ? 'Hoàn' : 'Thất bại'}</span></td>
                     <td style={{ fontSize: 12, color: 'var(--text3)' }}>{fmtD(o.created_at)}</td>
                   </tr>
                 ))}

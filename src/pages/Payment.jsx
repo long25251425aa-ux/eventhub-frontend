@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+﻿import React, { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import api from '../services/api';
 import toast from 'react-hot-toast';
@@ -14,15 +14,15 @@ const METHODS = [
   },
   {
     id: 'momo', label: 'MoMo', icon: '💜', tag: 'Nhanh nhất',
-    desc: 'Thanh toán qua ví MoMo', free: true,
+    desc: 'Payment qua ví MoMo', free: true,
   },
   {
     id: 'zalopay', label: 'ZaloPay', icon: '💙', tag: '',
-    desc: 'Thanh toán qua ví ZaloPay', free: true,
+    desc: 'Payment qua ví ZaloPay', free: true,
   },
   {
     id: 'vnpay', label: 'VNPay', icon: '🔵', tag: '',
-    desc: 'Thanh toán qua VNPay QR', free: true,
+    desc: 'Payment qua VNPay QR', free: true,
   },
   {
     id: 'card', label: 'Thẻ tín dụng / Ghi nợ', icon: '💳', tag: '',
@@ -30,15 +30,15 @@ const METHODS = [
   },
   {
     id: 'paypal', label: 'PayPal', icon: '🅿️', tag: 'Quốc tế',
-    desc: 'Thanh toán quốc tế qua PayPal', free: false, fee: '3.5%',
+    desc: 'Payment quốc tế qua PayPal', free: false, fee: '3.5%',
   },
   {
     id: 'stripe', label: 'Stripe', icon: '⚡', tag: '',
-    desc: 'Thanh toán quốc tế qua Stripe', free: false, fee: '2.9%',
+    desc: 'Payment quốc tế qua Stripe', free: false, fee: '2.9%',
   },
   {
     id: 'internet_banking', label: 'Internet Banking', icon: '🖥️', tag: '',
-    desc: 'Đăng nhập ngân hàng trực tuyến', free: true,
+    desc: 'Login ngân hàng trực tuyến', free: true,
   },
 ];
 
@@ -78,7 +78,7 @@ function QRPaymentModal({ order, method, onClose, onSuccess }) {
         <div style={{ background: '#1a1510', padding: '14px 20px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
             <span style={{ fontSize: 18 }}>{methodIcons[method?.id] || '💳'}</span>
-            <span style={{ fontSize: 13, color: '#c9a84c', fontWeight: 600 }}>{method?.label || 'Thanh toán'}</span>
+            <span style={{ fontSize: 13, color: '#c9a84c', fontWeight: 600 }}>{method?.label || 'Payment'}</span>
           </div>
           <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
             <span style={{ fontFamily: 'monospace', fontSize: 16, color: cd < 120 ? '#ef4444' : '#f59e0b', fontWeight: 700 }}>{mm}:{ss}</span>
@@ -176,7 +176,7 @@ function CardForm({ method, onPay, loading }) {
       </div>
       <button onClick={() => onPay(f)} disabled={loading || !f.number || !f.name || !f.expiry || !f.cvv}
         style={{ width: '100%', background: '#1a1510', border: 'none', color: '#c9a84c', padding: 13, fontSize: 12, letterSpacing: 2, textTransform: 'uppercase', fontWeight: 700, cursor: 'pointer', borderRadius: 4, opacity: loading ? .6 : 1 }}>
-        {loading ? 'Đang xử lý...' : '🔒 Thanh toán an toàn'}
+        {loading ? 'Đang xử lý...' : '🔒 Payment an toàn'}
       </button>
       <div style={{ textAlign: 'center', fontSize: 10, color: '#8a7f72', marginTop: 8 }}>🔒 Mã hóa SSL 256-bit · PCI DSS Compliant</div>
     </div>
@@ -197,7 +197,7 @@ function ExternalPayment({ method, amount, onPay, loading }) {
       </div>
       <button onClick={onPay} disabled={loading}
         style={{ background: colors[method.id], border: 'none', color: '#fff', padding: '12px 32px', fontSize: 13, fontWeight: 700, cursor: 'pointer', borderRadius: 4, width: '100%', opacity: loading ? .6 : 1 }}>
-        {loading ? 'Đang chuyển hướng...' : `Thanh toán qua ${method.label} →`}
+        {loading ? 'Đang chuyển hướng...' : `Payment qua ${method.label} →`}
       </button>
       <div style={{ fontSize: 10, color: '#8a7f72', marginTop: 8 }}>Bạn sẽ được chuyển đến trang {method.label} an toàn</div>
     </div>
@@ -271,7 +271,7 @@ export default function Payment() {
       } else {
         // Thẻ/PayPal/Stripe - giả lập xử lý
         await new Promise(r => setTimeout(r, 1500));
-        toast.success('🎉 Thanh toán thành công! Admin sẽ xác nhận trong 24h.');
+        toast.success('🎉 Payment thành công! Admin sẽ xác nhận trong 24h.');
         nav('/my-tickets');
       }
     } catch (e) { toast.error(e.response?.data?.message || 'Lỗi thanh toán'); }
@@ -291,9 +291,9 @@ export default function Payment() {
 
       {/* Header */}
       <div style={{ background: 'var(--dark)', padding: '36px 48px', borderBottom: '1px solid rgba(201,168,76,.1)' }}>
-        <button onClick={() => nav(-1)} style={{ background: 'none', border: '1px solid rgba(255,255,255,.2)', color: 'rgba(255,255,255,.7)', padding: '7px 16px', fontSize: 11, cursor: 'pointer', fontFamily: 'inherit', borderRadius: 4, marginBottom: 16 }}>← Quay lại</button>
+        <button onClick={() => nav(-1)} style={{ background: 'none', border: '1px solid rgba(255,255,255,.2)', color: 'rgba(255,255,255,.7)', padding: '7px 16px', fontSize: 11, cursor: 'pointer', fontFamily: 'inherit', borderRadius: 4, marginBottom: 16 }}>← Back</button>
         <div style={{ fontSize: 10, letterSpacing: 4, color: 'var(--gold)', textTransform: 'uppercase', marginBottom: 8 }}>Bước cuối cùng</div>
-        <h1 style={{ fontFamily: 'Cormorant Garamond,serif', fontSize: 32, fontWeight: 700, color: '#faf7f2' }}>Thanh toán</h1>
+        <h1 style={{ fontFamily: 'Cormorant Garamond,serif', fontSize: 32, fontWeight: 700, color: '#faf7f2' }}>Payment</h1>
       </div>
 
       <div style={{ maxWidth: 900, margin: '0 auto', padding: '36px 24px', display: 'grid', gridTemplateColumns: '1fr 360px', gap: 28, alignItems: 'start' }}>
@@ -302,14 +302,14 @@ export default function Payment() {
         <div>
           {/* Coupon & Gift Code */}
           <div style={{ background: 'var(--bg3)', border: '1px solid var(--border2)', borderRadius: 6, padding: '20px', marginBottom: 20 }}>
-            <div style={{ fontSize: 11, letterSpacing: 2, color: 'var(--text3)', textTransform: 'uppercase', marginBottom: 16 }}>🏷️ Mã giảm giá & Quà tặng</div>
+            <div style={{ fontSize: 11, letterSpacing: 2, color: 'var(--text3)', textTransform: 'uppercase', marginBottom: 16 }}>🏷️ Coupon Code & Quà tặng</div>
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
               <div>
                 <label style={{ display: 'block', fontSize: 10, color: 'var(--text3)', marginBottom: 6, letterSpacing: 1 }}>MÃ COUPON / VOUCHER</label>
                 <div style={{ display: 'flex', gap: 6 }}>
                   <input value={coupon} onChange={e => setCoupon(e.target.value.toUpperCase())} placeholder="VD: GIAM20"
                     style={{ flex: 1, background: 'var(--bg2)', border: '1px solid var(--border)', color: 'var(--text)', padding: '8px 12px', fontSize: 12, fontFamily: 'monospace', outline: 'none', borderRadius: 4 }} />
-                  <button onClick={applyCoupon} style={{ background: 'var(--dark)', border: '1px solid rgba(201,168,76,.3)', color: 'var(--gold)', padding: '8px 12px', fontSize: 11, cursor: 'pointer', fontFamily: 'inherit', borderRadius: 4, whiteSpace: 'nowrap' }}>Áp dụng</button>
+                  <button onClick={applyCoupon} style={{ background: 'var(--dark)', border: '1px solid rgba(201,168,76,.3)', color: 'var(--gold)', padding: '8px 12px', fontSize: 11, cursor: 'pointer', fontFamily: 'inherit', borderRadius: 4, whiteSpace: 'nowrap' }}>Apply</button>
                 </div>
                 {couponMsg && <div style={{ fontSize: 11, color: '#1a5c3a', marginTop: 4 }}>✓ {couponMsg}</div>}
               </div>
@@ -318,7 +318,7 @@ export default function Payment() {
                 <div style={{ display: 'flex', gap: 6 }}>
                   <input value={giftCode} onChange={e => setGiftCode(e.target.value.toUpperCase())} placeholder="VD: GIFT100"
                     style={{ flex: 1, background: 'var(--bg2)', border: '1px solid var(--border)', color: 'var(--text)', padding: '8px 12px', fontSize: 12, fontFamily: 'monospace', outline: 'none', borderRadius: 4 }} />
-                  <button onClick={applyGiftCode} style={{ background: 'var(--dark)', border: '1px solid rgba(201,168,76,.3)', color: 'var(--gold)', padding: '8px 12px', fontSize: 11, cursor: 'pointer', fontFamily: 'inherit', borderRadius: 4, whiteSpace: 'nowrap' }}>Áp dụng</button>
+                  <button onClick={applyGiftCode} style={{ background: 'var(--dark)', border: '1px solid rgba(201,168,76,.3)', color: 'var(--gold)', padding: '8px 12px', fontSize: 11, cursor: 'pointer', fontFamily: 'inherit', borderRadius: 4, whiteSpace: 'nowrap' }}>Apply</button>
                 </div>
                 {giftDiscount > 0 && <div style={{ fontSize: 11, color: '#1a5c3a', marginTop: 4 }}>🎁 Giảm {fmt(giftDiscount)}đ</div>}
               </div>
@@ -338,7 +338,7 @@ export default function Payment() {
                     <span style={{ fontSize: 20 }}>{m.icon}</span>
                     <div>
                       <div style={{ fontSize: 12, fontWeight: 600, color: 'var(--text)' }}>{m.label}</div>
-                      <div style={{ fontSize: 10, color: 'var(--text3)' }}>{m.free ? 'Miễn phí' : `Phí ${m.fee}`}</div>
+                      <div style={{ fontSize: 10, color: 'var(--text3)' }}>{m.free ? 'Free' : `Phí ${m.fee}`}</div>
                     </div>
                   </div>
                 </div>
@@ -349,7 +349,7 @@ export default function Payment() {
             {['qr_bank','momo','zalopay','vnpay','internet_banking'].includes(method.id) && (
               <button onClick={() => handlePay()} disabled={loading}
                 style={{ width: '100%', background: 'var(--gold)', border: 'none', color: '#1a1510', padding: 14, fontSize: 13, letterSpacing: 2, textTransform: 'uppercase', fontWeight: 700, cursor: 'pointer', borderRadius: 4, opacity: loading ? .6 : 1 }}>
-                {loading ? 'Đang xử lý...' : `${method.icon} Thanh toán ${fmt(finalTotal)}đ`}
+                {loading ? 'Đang xử lý...' : `${method.icon} Payment ${fmt(finalTotal)}đ`}
               </button>
             )}
             {method.id === 'card' && <CardForm method={method} onPay={handlePay} loading={loading} />}
@@ -391,7 +391,7 @@ export default function Payment() {
             </div>
 
             <div style={{ padding: '12px 20px', background: 'var(--bg2)', borderTop: '1px solid var(--border2)', fontSize: 10, color: 'var(--text3)', lineHeight: 1.7 }}>
-              🔒 Thanh toán được bảo mật bởi SSL 256-bit<br/>
+              🔒 Payment được bảo mật bởi SSL 256-bit<br/>
               ✅ Vé sẽ gửi ngay sau khi admin xác nhận<br/>
               ♻️ Hoàn tiền trong 30 ngày theo chính sách
             </div>

@@ -160,11 +160,11 @@ export default function SupportDashboard() {
                   return (
                     <div key={m.id || i} style={{ display: 'flex', gap: 10, marginBottom: 14, flexDirection: isSupport ? 'row-reverse' : 'row' }}>
                       <div style={{ width: 32, height: 32, borderRadius: '50%', background: isSupport ? '#7c3aed' : 'var(--gold)', color: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 11, fontWeight: 700, flexShrink: 0 }}>
-                        {isSupport ? '�Y'��?��Y'�' : (selConv?.name || 'K')[0]?.toUpperCase()}
+                        {isSupport ? 'S' : (selConv?.name || 'U')[0]?.toUpperCase()}
                       </div>
                       <div style={{ maxWidth: '70%' }}>
                         <div style={{ fontSize: 10, color: 'var(--text3)', marginBottom: 3, textAlign: isSupport ? 'right' : 'left' }}>
-                          {isSupport ? (m.sender_name || user?.name || 'Support') : (selConv?.name || 'Khách')}
+                          {isSupport ? (m.sender_name || user?.name || 'Support') : (selConv?.name || 'Guest')}
                         </div>
                         <div style={{ background: isSupport ? '#7c3aed' : 'var(--bg3)', color: isSupport ? '#fff' : 'var(--text)', padding: '10px 14px', borderRadius: isSupport ? '14px 4px 4px 14px' : '4px 14px 14px 4px', fontSize: 13, lineHeight: 1.5, border: isSupport ? 'none' : '1px solid var(--border)' }}>
                           {m.text || m.message}

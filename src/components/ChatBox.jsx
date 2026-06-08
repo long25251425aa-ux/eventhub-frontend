@@ -13,7 +13,7 @@ export default function ChatBox() {
   const loadMessages = async () => {
     if (!user) return;
     try {
-      const r = await api.get('/users/chat/messages');
+      const r = await api.get('/users/chat/history');
       const msgs = (r.data.data || []).map(m => ({
         id: m.id,
         from: m.is_support ? 'support' : 'user',
@@ -48,7 +48,7 @@ export default function ChatBox() {
     setInput('');
     if (user) {
       try {
-        await api.post('/users/chat/messages', { message: text });
+        await api.post('/users/chat/history', { message: text });
         loadMessages();
       } catch(e) {}
     }

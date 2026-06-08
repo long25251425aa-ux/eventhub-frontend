@@ -33,7 +33,7 @@ export default function ChatBox() {
       prevUser.current = user?.email;
       if (user) {
         setMessages([{ id: 1, from: 'bot', text: `Hello ${user.name}! How can I help you?`, time: new Date().toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' }) }]);
-        api.get('/chat/messages').then(r => {
+        api.get('/users/chat/messages').then(r => {
           const msgs = (r.data.data || []).map(m => ({
             id: m.id,
             from: m.is_support ? 'support' : 'user',
@@ -58,7 +58,7 @@ export default function ChatBox() {
     setMessages(p => [...p, { id: Date.now(), from: 'user', text: text.trim(), time }]);
     setInput('');
     if (user) {
-      try { await api.post('/chat/messages', { message: text.trim() }); } catch (e) {}
+      try { await api.post('/users/chat/messages', { message: text.trim() }); } catch (e) {}
     }
     setTimeout(() => {
       setMessages(p => [...p, { id: Date.now() + 1, from: 'bot', lines: getReply(text), time: new Date().toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' }) }]);
@@ -75,7 +75,7 @@ export default function ChatBox() {
               <div style={{ fontSize: 13, fontWeight: 600, color: 'var(--text)' }}>EventHub Support</div>
               <div style={{ fontSize: 10, color: 'var(--gold)' }}>● Online</div>
             </div>
-            <button onClick={() => setOpen(false)} style={{ background: 'none', border: 'none', color: 'var(--text3)', cursor: 'pointer', fontSize: 16 }}>✕</button>
+            <button onClick={() => setOpen(false)} style={{ background: 'none', border: 'none', color: 'var(--text3)', cursor: 'pointer', fontSize: 16 }}>X</button>
           </div>
           <div style={{ flex: 1, overflowY: 'auto', padding: 12, display: 'flex', flexDirection: 'column', gap: 8 }}>
             {messages.map(msg => (

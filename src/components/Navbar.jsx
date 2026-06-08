@@ -106,7 +106,7 @@ export default function Navbar() {
                     <button onClick={() => { nav('/notifications'); setShowNotifs(false); }} style={{ fontSize: 11, color: 'var(--gold)', background: 'none', border: 'none', cursor: 'pointer' }}>All Notifications</button>
                   </div>
                 </div>
-              )}
+            </div>
 
             {/* User menu */}
             <div ref={userRef} style={{ position: 'relative' }}>

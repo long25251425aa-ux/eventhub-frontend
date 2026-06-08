@@ -69,8 +69,7 @@ export default function Navbar() {
         {isAdmin && (
           <>
             <Link to="/admin" style={{ color: act('/admin') ? '#fff' : 'rgba(255,255,255,.55)', fontSize: 11, letterSpacing: 1.5, textTransform: 'uppercase', padding: '8px 14px', textDecoration: 'none', borderBottom: act('/admin') ? '1px solid var(--gold)' : '1px solid transparent', transition: 'color .2s' }}>
-              Admin<
-            </Link>
+              Admin</Link>
             <Link to="/checkin" style={{ color: act('/checkin') ? 'var(--gold)' : 'rgba(255,255,255,.55)', fontSize: 11, letterSpacing: 1.5, textTransform: 'uppercase', padding: '8px 14px', textDecoration: 'none', borderBottom: act('/checkin') ? '1px solid var(--gold)' : '1px solid transparent', transition: 'color .2s' }}>
               Check-in
             </Link>
@@ -151,6 +150,7 @@ export default function Navbar() {
     </header>
   );
 }
+
 
 
 

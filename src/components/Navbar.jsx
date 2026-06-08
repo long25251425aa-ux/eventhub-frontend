@@ -36,6 +36,12 @@ export default function Navbar() {
 
   const unread = notifs.filter(n => !n.is_read).length;
 
+  const markAllRead = () => {
+    api.patch('/notifications/read-all').then(() => {
+      setNotifs(p => p.map(n => ({...n, is_read: 1})));
+    }).catch(() => {});
+  };
+
   const linkStyle = path => ({
     color: act(path) ? '#fff' : 'rgba(255,255,255,.55)',
     fontSize: 11,
@@ -56,33 +62,25 @@ export default function Navbar() {
       <nav style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
         <Link to="/" style={linkStyle('/')}>Home</Link>
         <Link to="/events" style={linkStyle('/events')}>Events</Link>
-        {user && (
-          <Link to="/my-tickets" style={linkStyle('/my-tickets')}>My Tickets</Link>
-        )}
-        {isSupport && (
-          <Link to="/support" style={linkStyle('/support')}>Support</Link>
-        )}
+        {user && <Link to="/my-tickets" style={linkStyle('/my-tickets')}>My Tickets</Link>}
+        {isSupport && <Link to="/support" style={linkStyle('/support')}>Support</Link>}
         {(isAdmin || isOrganizer) && (
           <>
-            <Link to={isAdmin ? "/admin" : "/organizer"} style={linkStyle(isAdmin ? "/admin" : "/organizer")}>{isAdmin ? "Admin" : "Organizer"}</Link>
-            <Link to="/checkin" style={linkStyle("/checkin")}>Check-in</Link>
+            <Link to={isAdmin ? '/admin' : '/organizer'} style={linkStyle(isAdmin ? '/admin' : '/organizer')}>{isAdmin ? 'Admin' : 'Organizer'}</Link>
+            <Link to="/checkin" style={linkStyle('/checkin')}>Check-in</Link>
           </>
         )}
       </nav>
 
       <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-        <button
-          onClick={toggleDark}
-          style={{ background: 'none', border: '1px solid rgba(255,255,255,.15)', color: 'rgba(255,255,255,.6)', width: 32, height: 32, borderRadius: 4, cursor: 'pointer', fontSize: 14, display: 'flex', alignItems: 'center', justifyContent: 'center', transition: 'border-color .2s' }}
-          onMouseOver={e => e.currentTarget.style.borderColor = 'rgba(201,168,76,.4)'}
-          onMouseOut={e => e.currentTarget.style.borderColor = 'rgba(255,255,255,.15)'}
+        <button onClick={toggleDark}
+          style={{ background: 'none', border: '1px solid rgba(255,255,255,.15)', color: 'rgba(255,255,255,.6)', width: 32, height: 32, borderRadius: 4, cursor: 'pointer', fontSize: 11, display: 'flex', alignItems: 'center', justifyContent: 'center', transition: 'border-color .2s' }}
           title={dark ? 'Light mode' : 'Dark mode'}>
-          {dark ? 'Light' : 'Dark'}
+          {dark ? '☀' : '🌙'}
         </button>
 
         {user ? (
           <>
-            {/* Notifications */}
             <div ref={notifRef} style={{ position: 'relative' }}>
               <button onClick={() => setShowNotifs(!showNotifs)}
                 style={{ background: 'none', border: '1px solid rgba(255,255,255,.15)', color: 'rgba(255,255,255,.6)', width: 32, height: 32, borderRadius: 4, cursor: 'pointer', fontSize: 14, display: 'flex', alignItems: 'center', justifyContent: 'center', position: 'relative' }}>
@@ -101,14 +99,14 @@ export default function Navbar() {
                       <div style={{ fontSize: 11, color: 'var(--text3)' }}>{n.message}</div>
                     </div>
                   ))}
-                  <div style={{ padding: '10px 16px', textAlign: 'center', display: 'flex', gap: 8, justifyContent: 'center' }}>
-                    <button onClick={() => { api.patch('/notifications/read-all').then(() => setNotifs(p => p.map(n => ({...n, is_read: 1})))); }} style={{ fontSize: 11, color: 'var(--text3)', background: 'none', border: '1px solid var(--border)', borderRadius: 4, padding: '4px 8px', cursor: 'pointer' }}>Mark all read</button>
+                  <div style={{ padding: '10px 16px', display: 'flex', gap: 8, justifyContent: 'center' }}>
+                    <button onClick={markAllRead} style={{ fontSize: 11, color: 'var(--text3)', background: 'none', border: '1px solid var(--border)', borderRadius: 4, padding: '4px 8px', cursor: 'pointer' }}>Mark all read</button>
                     <button onClick={() => { nav('/notifications'); setShowNotifs(false); }} style={{ fontSize: 11, color: 'var(--gold)', background: 'none', border: 'none', cursor: 'pointer' }}>All Notifications</button>
                   </div>
                 </div>
+              )}
             </div>
 
-            {/* User menu */}
             <div ref={userRef} style={{ position: 'relative' }}>
               <button onClick={() => setShowUser(!showUser)}
                 style={{ background: 'rgba(201,168,76,.1)', border: '1px solid rgba(201,168,76,.3)', color: 'var(--gold)', width: 32, height: 32, borderRadius: '50%', cursor: 'pointer', fontSize: 13, fontWeight: 700, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
@@ -136,8 +134,3 @@ export default function Navbar() {
     </header>
   );
 }
-
-
-
-
-

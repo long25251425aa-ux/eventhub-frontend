@@ -1,14 +1,15 @@
-.ecard{background:#fff;cursor:pointer;transition:background .25s;display:flex;flex-direction:column}
+﻿.ecard{background:var(--bg3);cursor:pointer;transition:background .25s;display:flex;flex-direction:column}
 .ecard:hover{background:var(--cream)}
 .ecard-img{height:150px;display:flex;align-items:center;justify-content:center;position:relative}
 .ecard-emoji{font-size:50px}
 .ecard-type{position:absolute;top:0;right:0;background:#1a1510;color:#c9a84c;font-size:9px;letter-spacing:2px;text-transform:uppercase;padding:5px 12px;font-family:'Montserrat',sans-serif}
 .ecard-body{padding:20px 22px;flex:1}
-.ecard-name{font-size:17px;font-weight:400;line-height:1.35;margin-bottom:10px;letter-spacing:.5px}
+.ecard-name{color:var(--text);font-size:17px;font-weight:400;line-height:1.35;margin-bottom:10px;letter-spacing:.5px}
 .ecard-meta{font-size:11px;color:var(--ink3);letter-spacing:.5px;display:flex;flex-direction:column;gap:4px}
 .ecard-foot{display:flex;align-items:center;justify-content:space-between;padding:14px 22px;border-top:1px solid var(--border2)}
-.ecard-price{font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:300;letter-spacing:.5px;margin-bottom:2px}
+.ecard-price{color:var(--text);font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:300;letter-spacing:.5px;margin-bottom:2px}
 .ecard-price.free{font-family:'Montserrat',sans-serif;font-size:12px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--green)}
 .ecard-left{font-size:10px;letter-spacing:.5px;color:var(--ink3);text-transform:uppercase;margin-bottom:4px}
 .ecard-left.low{color:var(--amber)}
 .ecard-left.none{color:var(--red)}
+

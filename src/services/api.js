@@ -2,7 +2,7 @@
 
 const api = axios.create({
   baseURL: 'https://eventhub-backend-785a.onrender.com/api',
-  timeout: 10000,
+  timeout: 30000,
 });
 
 api.interceptors.request.use((cfg) => {
@@ -24,5 +24,6 @@ api.interceptors.response.use(
 );
 
 export default api;
+
 
 

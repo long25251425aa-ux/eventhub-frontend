@@ -2,23 +2,6 @@
 import { useAuth } from '../context/AuthContext';
 import api from '../services/api';
 
-const QUICK = ['How to book a ticket?', 'How to get a refund?', 'Contact support', 'View my tickets'];
-
-const REPLIES = {
-  'how to book': 'Login → Select event → Choose ticket → Confirm → Pay via QR → Receive ticket code.',
-  'refund': 'Go to My Tickets → select ticket → click Request Refund. Admin reviews within 24h.',
-  'contact': 'Email: admin@eventhub.vn | Phone: 1900 1234 | Hours: 8:00-22:00 daily.',
-  'ticket': 'Go to My Tickets to view all your purchased tickets and QR codes.',
-};
-
-function getReply(text) {
-  const t = text.toLowerCase();
-  for (const [k, v] of Object.entries(REPLIES)) {
-    if (t.includes(k)) return [v];
-  }
-  return ['Thank you for your message! Our support team will respond shortly.'];
-}
-
 export default function ChatBox() {
   const { user } = useAuth();
   const [open, setOpen] = useState(false);
@@ -26,44 +9,49 @@ export default function ChatBox() {
   const [input, setInput] = useState('');
   const [unread, setUnread] = useState(0);
   const bottomRef = useRef();
-  const prevUser = useRef(null);
+
+  const loadMessages = async () => {
+    if (!user) return;
+    try {
+      const r = await api.get('/users/chat/messages');
+      const msgs = (r.data.data || []).map(m => ({
+        id: m.id,
+        from: m.is_support ? 'support' : 'user',
+        text: m.message,
+        time: new Date(new Date(m.created_at).getTime() - 9*60*60*1000).toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' })
+      }));
+      if (msgs.length > messages.length && !open) setUnread(u => u + (msgs.length - messages.length));
+      setMessages(msgs);
+    } catch(e) {}
+  };
 
   useEffect(() => {
-    if (prevUser.current !== user?.email) {
-      prevUser.current = user?.email;
-      if (user) {
-        setMessages([{ id: 1, from: 'bot', text: `Hello ${user.name}! How can I help you?`, time: new Date().toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' }) }]);
-        api.get('/users/chat/messages').then(r => {
-          const msgs = (r.data.data || []).map(m => ({
-            id: m.id,
-            from: m.is_support ? 'support' : 'user',
-            text: m.message,
-            time: new Date(new Date(m.created_at).getTime() - 9*60*60*1000).toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' })
-          }));
-          if (msgs.length) setMessages(msgs);
-        }).catch(() => {});
-      } else {
-        setMessages([{ id: 1, from: 'bot', text: 'Hello! How can I help you today?', time: new Date().toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' }) }]);
-      }
+    if (!user) {
+      setMessages([{ id: 1, from: 'bot', text: 'Hello! Please login to chat with support.', time: new Date().toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' }) }]);
+      return;
     }
+    loadMessages();
+    const t = setInterval(loadMessages, 5000);
+    return () => clearInterval(t);
   }, [user]);
 
   useEffect(() => {
-    if (open) { setUnread(0); setTimeout(() => bottomRef.current?.scrollIntoView({ behavior: 'smooth' }), 100); }
+    if (open) {
+      setUnread(0);
+      setTimeout(() => bottomRef.current?.scrollIntoView({ behavior: 'smooth' }), 100);
+    }
   }, [open, messages]);
 
-  const send = async (text) => {
-    if (!text.trim()) return;
-    const time = new Date().toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' });
-    setMessages(p => [...p, { id: Date.now(), from: 'user', text: text.trim(), time }]);
+  const send = async () => {
+    if (!input.trim()) return;
+    const text = input.trim();
     setInput('');
     if (user) {
-      try { await api.post('/users/chat/messages', { message: text.trim() }); } catch (e) {}
+      try {
+        await api.post('/users/chat/messages', { message: text });
+        loadMessages();
+      } catch(e) {}
     }
-    setTimeout(() => {
-      setMessages(p => [...p, { id: Date.now() + 1, from: 'bot', lines: getReply(text), time: new Date().toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' }) }]);
-      if (!open) setUnread(u => u + 1);
-    }, 800);
   };
 
   return (
@@ -78,25 +66,26 @@ export default function ChatBox() {
             <button onClick={() => setOpen(false)} style={{ background: 'none', border: 'none', color: 'var(--text3)', cursor: 'pointer', fontSize: 16 }}>X</button>
           </div>
           <div style={{ flex: 1, overflowY: 'auto', padding: 12, display: 'flex', flexDirection: 'column', gap: 8 }}>
-            {messages.map(msg => (
-              <div key={msg.id} style={{ display: 'flex', flexDirection: 'column', alignItems: msg.from === 'user' ? 'flex-end' : 'flex-start' }}>
-                <div style={{ maxWidth: '80%', padding: '8px 12px', borderRadius: 8, background: msg.from === 'user' ? 'var(--gold)' : 'var(--bg3)', color: msg.from === 'user' ? '#000' : 'var(--text)', fontSize: 12, lineHeight: 1.5 }}>
-                  {msg.text || (msg.lines || []).join(' ')}
+            {messages.length === 0 && (
+              <div style={{ textAlign: 'center', color: 'var(--text3)', fontSize: 12, marginTop: 20 }}>Send a message to start chatting with support</div>
+            )}
+            {messages.map((msg, i) => (
+              <div key={msg.id || i} style={{ display: 'flex', flexDirection: 'column', alignItems: msg.from === 'user' ? 'flex-end' : 'flex-start' }}>
+                <div style={{ fontSize: 10, color: 'var(--text3)', marginBottom: 2 }}>{msg.from === 'support' ? 'Support' : 'You'}</div>
+                <div style={{ maxWidth: '80%', padding: '8px 12px', borderRadius: 8, background: msg.from === 'user' ? 'var(--gold)' : msg.from === 'support' ? '#7c3aed' : 'var(--bg3)', color: msg.from === 'user' ? '#000' : '#fff', fontSize: 12, lineHeight: 1.5 }}>
+                  {msg.text}
                 </div>
                 <div style={{ fontSize: 10, color: 'var(--text3)', marginTop: 3 }}>{msg.time}</div>
               </div>
             ))}
             <div ref={bottomRef} />
           </div>
-          <div style={{ padding: '8px 12px', borderTop: '1px solid var(--border)', display: 'flex', flexWrap: 'wrap', gap: 4 }}>
-            {QUICK.map(q => (
-              <button key={q} onClick={() => send(q)} style={{ fontSize: 10, padding: '4px 8px', background: 'var(--bg3)', border: '1px solid var(--border2)', borderRadius: 12, color: 'var(--text3)', cursor: 'pointer' }}>{q}</button>
-            ))}
-          </div>
           <div style={{ padding: '8px 12px', borderTop: '1px solid var(--border)', display: 'flex', gap: 8 }}>
-            <input value={input} onChange={e => setInput(e.target.value)} onKeyDown={e => e.key === 'Enter' && send(input)}
-              placeholder="Type a message..." style={{ flex: 1, background: 'var(--bg3)', border: '1px solid var(--border2)', borderRadius: 4, padding: '6px 10px', fontSize: 12, color: 'var(--text)', outline: 'none' }} />
-            <button onClick={() => send(input)} style={{ background: 'var(--gold)', border: 'none', borderRadius: 4, padding: '6px 12px', fontSize: 12, fontWeight: 600, cursor: 'pointer', color: '#000' }}>Send</button>
+            <input value={input} onChange={e => setInput(e.target.value)} onKeyDown={e => e.key === 'Enter' && send()}
+              placeholder={user ? "Type a message..." : "Please login to chat"}
+              disabled={!user}
+              style={{ flex: 1, background: 'var(--bg3)', border: '1px solid var(--border2)', borderRadius: 4, padding: '6px 10px', fontSize: 12, color: 'var(--text)', outline: 'none' }} />
+            <button onClick={send} disabled={!user} style={{ background: 'var(--gold)', border: 'none', borderRadius: 4, padding: '6px 12px', fontSize: 12, fontWeight: 600, cursor: 'pointer', color: '#000' }}>Send</button>
           </div>
         </div>
       )}

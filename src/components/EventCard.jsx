@@ -1,4 +1,4 @@
-import React from 'react';
+﻿import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import './EventCard.css';
 
@@ -38,7 +38,7 @@ export default function EventCard({ event: e }) {
           <div className={'ecard-left ' + leftCls}>{left<=0?'Het ve':left<20?'Con '+left+' ve':'Con '+left+' ve'}</div>
           <div className="prog-bar" style={{width:90}}><div className="prog-fill" style={{width:pct+'%',background:pct>90?'#8b1a1a':pct>70?'#8b5e00':'#c9a84c'}}/></div>
         </div>
-        <button className="btn btn-dark btn-sm" onClick={ev=>{ev.stopPropagation();navigate('/events/'+e.id);}}>Xem</button>
+        <button className="btn btn-dark btn-sm" onClick={ev=>{ev.stopPropagation();navigate('/events/'+e.id);}}>View</button>
       </div>
     </div>
   );

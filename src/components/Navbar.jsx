@@ -64,7 +64,7 @@ export default function Navbar() {
         )}
         {(isAdmin || isOrganizer) && (
           <>
-            <Link to="/admin" style={linkStyle("/admin")}>{isAdmin ? "Admin" : "Organizer"}</Link>
+            <Link to={isAdmin ? "/admin" : "/organizer"} style={linkStyle(isAdmin ? "/admin" : "/organizer")}>{isAdmin ? "Admin" : "Organizer"}</Link>
             <Link to="/checkin" style={linkStyle("/checkin")}>Check-in</Link>
           </>
         )}
@@ -136,3 +136,4 @@ export default function Navbar() {
     </header>
   );
 }
+

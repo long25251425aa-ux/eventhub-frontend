@@ -114,6 +114,23 @@ export default function Home() {
         </div>
       </section>
 
+      {/* AD SLIDER */}
+      {topEvents.length > 0 && (
+        <section style={{ background: "var(--dark)", padding: "0 48px", borderBottom: "1px solid rgba(201,168,76,.08)" }}>
+          <div style={{ background: "linear-gradient(135deg,#1a0a3e,#6b2fa0)", borderRadius: 6, padding: "40px 48px", position: "relative", overflow: "hidden", minHeight: 160 }}>
+            <div style={{ position: "relative" }}>
+              <div style={{ fontSize: 10, letterSpacing: 3, color: "#a855f7", fontWeight: 700, marginBottom: 10 }}>● FEATURED</div>
+              <h3 style={{ fontFamily: "Cormorant Garamond,serif", fontSize: 30, fontWeight: 700, color: "#faf7f2", marginBottom: 8, lineHeight: 1.2 }}>{topEvents[0]?.title || topEvents[0]?.name}</h3>
+              <p style={{ fontSize: 13, color: "rgba(255,255,255,.6)", marginBottom: 12 }}>From {new Intl.NumberFormat("vi-VN").format(topEvents[0]?.price || 0)}d</p>
+              <button onClick={() => nav("/events/" + (topEvents[0]?.slug || topEvents[0]?.id))}
+                style={{ background: "#a855f7", border: "none", color: "#fff", padding: "10px 28px", fontSize: 11, letterSpacing: 2, textTransform: "uppercase", fontWeight: 700, cursor: "pointer", borderRadius: 4 }}>
+                Book Now →
+              </button>
+            </div>
+          </div>
+        </section>
+      )}
+
       {/* CATEGORIES */}
       <section className="cat-bar">
         {categories.slice(0,8).map(c => (

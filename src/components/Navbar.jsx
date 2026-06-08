@@ -22,7 +22,7 @@ export default function Navbar() {
 
   useEffect(() => {
     if (!user) return;
-    api.get(isAdmin ? '/users/notifications/all' : '/notifications').then(r => setNotifs(r.data.data || [])).catch(() => {});
+    api.get(user?.role === 'admin' ? '/users/notifications/all' : '/notifications').then(r => setNotifs(r.data.data || [])).catch(() => {});
   }, [user]);
 
   useEffect(() => {
@@ -136,6 +136,7 @@ export default function Navbar() {
     </header>
   );
 }
+
 
 
 

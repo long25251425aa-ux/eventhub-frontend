@@ -6,7 +6,7 @@ import api from '../services/api';
 
 export default function Navbar() {
   const { user, logout } = useAuth();
-  const { dark, toggleDark } = useTheme();
+  const { dark, toggle: toggleDark } = useTheme();
   const loc = useLocation();
   const nav = useNavigate();
   const [notifs, setNotifs] = useState([]);
@@ -136,4 +136,5 @@ export default function Navbar() {
     </header>
   );
 }
+
 
